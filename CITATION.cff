@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this guide in your work, please cite it as below."
+title: "Mobile Speech-to-Text Engineering Guide"
+type: software
+authors:
+  - name: "Made in Jurgistan"
+    website: "https://Made-in-Jurgistan.github.io"
+repository-code: "https://github.com/Made-in-Jurgistan/mobile-stt-engineering-guide-2026"
+url: "https://Made-in-Jurgistan.github.io/mobile-stt-engineering-guide/"
+version: "2026.2.0"
+date-released: "2026-07-23"
+license: CC-BY-SA-4.0
+keywords:
+  - mobile STT
+  - speech-to-text
+  - Android ASR
+  - iOS speech recognition
+  - whisper.cpp
+  - Moonshine
+  - Silero VAD
+  - ONNX Runtime
+  - on-device inference
+abstract: "The definitive 2026 production guide for mobile speech-to-text systems. Covers whisper.cpp, Moonshine v2, Silero VAD v6, ONNX Runtime, and the full production stack for building on-device STT for Android and iOS."
