@@ -19,14 +19,14 @@
     <link rel="canonical" href="https://Made-in-Jurgistan.github.io/mobile-stt-engineering-guide/" />
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Mobile STT Engineering Guide — Complete Edition" />
+    <meta property="og:title" content="Mobile Speech-to-Text Engineering Guide" />
     <meta
       property="og:description"
       content="33 sections · Kotlin · Python · C++ · ONNX · Moonshine v2 · whisper.cpp · Silero VAD v6. The complete production guide."
     />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://Made-in-Jurgistan.github.io/mobile-stt-engineering-guide/" />
-    <meta property="og:site_name" content="Mobile STT Engineering Guide" />
+    <meta property="og:site_name" content="Mobile Speech-to-Text Engineering Guide" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:image" content="https://Made-in-Jurgistan.github.io/mobile-stt-engineering-guide/cover.png" />
     <meta property="article:published_time" content="2026-07-23T00:00:00Z" />
@@ -34,7 +34,7 @@
     <meta property="article:section" content="Mobile Development" />
     <meta property="article:tag" content="Mobile STT, Speech-to-Text, Android ASR, Whisper, Moonshine, ONNX Runtime" />
     <meta name="theme-color" content="#0047ab" />
-    <title>Mobile STT Engineering Guide — Complete Edition</title>
+    <title>Mobile Speech-to-Text Engineering Guide</title>
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
     <link
@@ -1692,7 +1692,7 @@
           color: #666;
         }
         @bottom-right {
-          content: "Mobile STT Engineering Guide";
+          content: "Mobile Speech-to-Text Engineering Guide";
           font-family: 'DM Sans', 'Segoe UI', Arial, sans-serif;
           font-size: 8pt;
           color: #6b6b6b;
@@ -2118,12 +2118,32 @@
         section > :nth-last-child(-n+2) { margin-bottom: 0 !important; }
         .back-to-top, .return-to-top { margin: 0 !important; padding: 0 !important; border: 0 !important; height: 0; overflow: hidden; }
       }
+    
+      /* ── Level badge sits beside the heading, not inside it (clean outline, bookmarks and screen-reader names) ── */
+      .heading-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+      .heading-row > h2, .heading-row > h3, .heading-row > h4 { margin: 0; }
+      @media print { .heading-row { break-after: avoid; break-inside: avoid; } }
+    
+      .series-links { flex: 0 0 100%; grid-column: 1 / -1; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--ink-100); font-size: 12.5px; color: var(--ink-500); }
+      .series-links ul { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 18px; }
+      @media print { .series-links { display: none; } }
+    
+      /* ── Copy button on code blocks ── */
+      pre { position: relative; }
+      .copy-btn { position: absolute; bottom: 6px; right: 6px; display: inline-flex; align-items: center; gap: 5px; font: 500 11px/1 var(--f-body);
+        color: var(--ink-600); background: var(--paper); border: 1px solid var(--ink-200); border-radius: 5px; padding: 5px 9px; min-height: 24px; cursor: pointer;
+        opacity: 0; transition: opacity 0.15s; user-select: none; -webkit-user-select: none; }
+      pre:hover .copy-btn, pre:focus-within .copy-btn, .copy-btn:focus-visible { opacity: 1; }
+      .copy-btn:hover { color: var(--accent-ink, var(--accent)); border-color: var(--accent-bd); }
+      @media (hover: none) { .copy-btn { opacity: 1; } }
+      @media print { .copy-btn { display: none !important; } }
     </style>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "TechArticle",
-        "headline": "Mobile STT Engineering Guide — Complete Edition",
+        "headline": "Mobile Speech-to-Text Engineering Guide",
+        "url": "https://Made-in-Jurgistan.github.io/mobile-stt-engineering-guide/",
         "description": "The definitive 2026 engineering guide for building production-grade mobile Speech-to-Text systems on Android, iOS, edge, and cloud.",
         "author": {
           "@type": "Organization",
@@ -2151,7 +2171,7 @@
         "accessibilitySummary": "Conforms to WCAG 2.2 AA. Includes keyboard navigation, skip links, focus management, reduced-motion support, and semantic HTML.",
         "isPartOf": {
           "@type": "CreativeWorkSeries",
-          "name": "Mobile STT Engineering Guide"
+          "name": "Made in Jurgistan Guides"
         }
       }
     </script>
@@ -2173,7 +2193,7 @@
       <nav aria-label="Guide sections" class="sidebar" role="navigation" id="sidebar-nav">
         <div class="sidebar-brand">
           <span class="logo-mark">Made in Jurgistan</span>
-          <h2>Mobile STT<br />Engineering Guide</h2>
+          <h2>Mobile Speech-to-Text<br />Engineering Guide</h2>
           <p class="edition">Complete Edition · 33 Sections</p>
         </div>
         <div class="nav-group">
@@ -2284,7 +2304,7 @@
         <section id="s01">
           <div class="chapter">
             <span class="chapter-num">Section 01</span>
-            <h2>About This Guide <span class="badge b-beginner">Beginner</span></h2>
+            <div class="heading-row heading-row-2"><h2>About This Guide</h2><span class="badge b-beginner">Beginner</span></div>
             <p class="ch-desc">
               Scope, prerequisites, reading paths, and the philosophy behind this edition
             </p>
@@ -2337,32 +2357,32 @@
               <div class="role-icon" data-icon="smartphone"></div>
               <div class="role-title">Android Developer</div>
               <div class="role-start">
-                Start: <a href="#s04">§04 Capture</a> → <a href="#s06">§06 VAD</a> →
-                <a href="#s16">§16 Android Stack</a> → <a href="#s20">§20 whisper.cpp</a>
+                Start: <a href="#s04">Section 04 Capture</a> → <a href="#s06">Section 06 VAD</a> →
+                <a href="#s16">Section 16 Android Stack</a> → <a href="#s20">Section 20 whisper.cpp</a>
               </div>
             </div>
             <div class="role-card">
               <div class="role-icon" data-icon="mic"></div>
               <div class="role-title">Keyboard / IME Engineer</div>
               <div class="role-start">
-                Start: <a href="#s02">§02 Pipeline</a> → <a href="#s16">§16 Android</a> →
-                <a href="#s24">§24 VoiceKeyboard</a> → <a href="#s25">§25 Perf</a>
+                Start: <a href="#s02">Section 02 Pipeline</a> → <a href="#s16">Section 16 Android</a> →
+                <a href="#s24">Section 24 VoiceKeyboard</a> → <a href="#s25">Section 25 Perf</a>
               </div>
             </div>
             <div class="role-card">
               <div class="role-icon" data-icon="flask"></div>
               <div class="role-title">ML Engineer</div>
               <div class="role-start">
-                Start: <a href="#s09">§09 Models</a> → <a href="#s10">§10 Whisper</a> →
-                <a href="#s11">§11 Moonshine</a> → <a href="#s23">§23 Benchmarks</a>
+                Start: <a href="#s09">Section 09 Models</a> → <a href="#s10">Section 10 Whisper</a> →
+                <a href="#s11">Section 11 Moonshine</a> → <a href="#s23">Section 23 Benchmarks</a>
               </div>
             </div>
             <div class="role-card">
               <div class="role-icon" data-icon="cloud"></div>
               <div class="role-title">Backend / Cloud Engineer</div>
               <div class="role-start">
-                Start: <a href="#s07">§07 Streaming</a> → <a href="#s13">§13 LM</a> →
-                <a href="#s18">§18 Cloud</a> → <a href="#s15">§15 LLM Layer</a>
+                Start: <a href="#s07">Section 07 Streaming</a> → <a href="#s13">Section 13 LM</a> →
+                <a href="#s18">Section 18 Cloud</a> → <a href="#s15">Section 15 LLM Layer</a>
               </div>
             </div>
           </div>
@@ -2413,7 +2433,7 @@
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 02</span>
-            <h2>Pipeline Architecture Overview <span class="badge b-beginner">Beginner</span></h2>
+            <div class="heading-row heading-row-2"><h2>Pipeline Architecture Overview</h2><span class="badge b-beginner">Beginner</span></div>
             <p class="ch-desc">
               The complete 10-stage signal → inference → language pipeline. The mental model for
               every debugging session and optimization decision you will make.
@@ -2496,70 +2516,70 @@
                   <td><strong>Audio Capture</strong></td>
                   <td>Mic → 16kHz mono PCM</td>
                   <td>AudioRecord, AVAudioEngine, PortAudio</td>
-                  <td><a href="#s04">§04</a></td>
+                  <td><a href="#s04">Section 04</a></td>
                 </tr>
                 <tr>
                   <td>2</td>
                   <td><strong>Pre-Processing</strong></td>
                   <td>Raw PCM → Clean PCM</td>
                   <td>RNNoise, WebRTC APM, Krisp SDK</td>
-                  <td><a href="#s05">§05</a></td>
+                  <td><a href="#s05">Section 05</a></td>
                 </tr>
                 <tr>
                   <td>3</td>
                   <td><strong>VAD</strong></td>
                   <td>Clean stream → Speech segments</td>
                   <td>Silero VAD v6, Moonshine VAD, WebRTC VAD</td>
-                  <td><a href="#s06">§06</a></td>
+                  <td><a href="#s06">Section 06</a></td>
                 </tr>
                 <tr>
                   <td>4</td>
                   <td><strong>Streaming / Chunking</strong></td>
                   <td>Segments → Buffered chunks</td>
                   <td>LiveKit, WebSocket, gRPC, ring buffer</td>
-                  <td><a href="#s07">§07</a></td>
+                  <td><a href="#s07">Section 07</a></td>
                 </tr>
                 <tr>
                   <td>5</td>
                   <td><strong>Feature Extraction</strong></td>
                   <td>Chunks → Log-mel tensors</td>
                   <td>torchaudio, librosa, whisper.cpp mel</td>
-                  <td><a href="#s08">§08</a></td>
+                  <td><a href="#s08">Section 08</a></td>
                 </tr>
                 <tr>
                   <td>6</td>
                   <td><strong>Acoustic Model</strong></td>
                   <td>Features → Token probabilities</td>
                   <td>Whisper, Moonshine, Parakeet, Wav2Vec2</td>
-                  <td><a href="#s09">§09</a>–<a href="#s11">§11</a></td>
+                  <td><a href="#s09">Section 09</a>–<a href="#s11">Section 11</a></td>
                 </tr>
                 <tr>
                   <td>7</td>
                   <td><strong>Decoder</strong></td>
                   <td>Token probs → Word sequences</td>
                   <td>CTC greedy, beam search, Flashlight</td>
-                  <td><a href="#s12">§12</a></td>
+                  <td><a href="#s12">Section 12</a></td>
                 </tr>
                 <tr>
                   <td>8</td>
                   <td><strong>Language Model</strong></td>
                   <td>Hypotheses → Re-scored output</td>
                   <td>KenLM, SentencePiece, n-gram</td>
-                  <td><a href="#s13">§13</a></td>
+                  <td><a href="#s13">Section 13</a></td>
                 </tr>
                 <tr>
                   <td>9</td>
                   <td><strong>Post-Processing</strong></td>
                   <td>Raw text → Formatted text</td>
                   <td>DeepMultilingualPunc, spaCy, custom rules</td>
-                  <td><a href="#s14">§14</a></td>
+                  <td><a href="#s14">Section 14</a></td>
                 </tr>
                 <tr>
                   <td>10</td>
                   <td><strong>LLM Formatting</strong></td>
                   <td>Transcript → Final output</td>
                   <td>Claude Haiku 4.5, Qwen3, Gemma 3</td>
-                  <td><a href="#s15">§15</a></td>
+                  <td><a href="#s15">Section 15</a></td>
                 </tr>
               </tbody>
             </table>
@@ -2589,7 +2609,7 @@
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 03</span>
-            <h2>Core Concepts &amp; Terminology <span class="badge b-beginner">Beginner</span></h2>
+            <div class="heading-row heading-row-2"><h2>Core Concepts &amp; Terminology</h2><span class="badge b-beginner">Beginner</span></div>
             <p class="ch-desc">
               WER, RTF, CTC, RNN-T, MFCC, log-mel — demystified. The vocabulary you need to read
               papers, documentation, and benchmark cards without confusion.
@@ -2668,7 +2688,7 @@ RTF &gt; 1.0  → slower than real-time (batch only)</code></pre>
             sliding-window self-attention, achieving bounded TTFT (Time to First Token) independent
             of utterance length. This eliminates the fundamental latency limitation of
             encoder-decoder models for streaming use cases. See
-            <a href="#s11">§11 Moonshine Deep Dive</a>.
+            <a href="#s11">Section 11 Moonshine Deep Dive</a>.
           </p>
           <h3>The Golden Audio Standard</h3>
           <div class="spec-grid">
@@ -2740,7 +2760,7 @@ RTF &gt; 1.0  → slower than real-time (batch only)</code></pre>
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 04</span>
-            <h2>Audio Capture Layer <span class="badge b-beginner">Beginner</span></h2>
+            <div class="heading-row heading-row-2"><h2>Audio Capture Layer</h2><span class="badge b-beginner">Beginner</span></div>
             <p class="ch-desc">
               Getting low-latency, correctly formatted audio from the microphone. The foundation of
               every STT pipeline — get this wrong and nothing downstream saves you.
@@ -2909,10 +2929,7 @@ RTF &gt; 1.0  → slower than real-time (batch only)</code></pre>
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 05</span>
-            <h2>
-              Pre-Processing &amp; Noise Reduction
-              <span class="badge b-intermediate">Intermediate</span>
-            </h2>
+            <div class="heading-row heading-row-2"><h2>Pre-Processing &amp; Noise Reduction</h2><span class="badge b-intermediate">Intermediate</span></div>
             <div class="prereq-chips">
               <span class="prereq-label">Prerequisites:</span>
               <a class="prereq-chip" href="#s04">Audio Capture Layer</a>
@@ -2949,7 +2966,7 @@ RTF &gt; 1.0  → slower than real-time (batch only)</code></pre>
             </li>
             <li>
               <strong>VAD</strong> — Gate the model on confirmed speech segments (see
-              <a href="#s06">§06</a>).
+              <a href="#s06">Section 06</a>).
             </li>
           </ol>
           <h3>Tool 1: WebRTC Audio Processing Module (APM)</h3>
@@ -3045,9 +3062,7 @@ RTF &gt; 1.0  → slower than real-time (batch only)</code></pre>
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 06</span>
-            <h2>
-              Voice Activity Detection (VAD) <span class="badge b-intermediate">Intermediate</span>
-            </h2>
+            <div class="heading-row heading-row-2"><h2>Voice Activity Detection (VAD)</h2><span class="badge b-intermediate">Intermediate</span></div>
             <div class="prereq-chips">
               <span class="prereq-label">Prerequisites:</span>
               <a class="prereq-chip" href="#s05">Pre-Processing &amp; Noise Reduction</a>
@@ -3288,7 +3303,7 @@ RTF &gt; 1.0  → slower than real-time (batch only)</code></pre>
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 07</span>
-            <h2>Streaming &amp; Chunking <span class="badge b-intermediate">Intermediate</span></h2>
+            <div class="heading-row heading-row-2"><h2>Streaming &amp; Chunking</h2><span class="badge b-intermediate">Intermediate</span></div>
             <p class="ch-desc">
               How to buffer, chunk, and stream audio between capture and model inference — including
               ring buffers, overlap strategies, and transport protocols.
@@ -3434,7 +3449,7 @@ RTF &gt; 1.0  → slower than real-time (batch only)</code></pre>
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 08</span>
-            <h2>Feature Extraction <span class="badge b-intermediate">Intermediate</span></h2>
+            <div class="heading-row heading-row-2"><h2>Feature Extraction</h2><span class="badge b-intermediate">Intermediate</span></div>
             <div class="prereq-chips">
               <span class="prereq-label">Prerequisites:</span>
               <a class="prereq-chip" href="#s06">Voice Activity Detection</a>
@@ -3538,7 +3553,7 @@ RTF &gt; 1.0  → slower than real-time (batch only)</code></pre>
             <a class="ext"
                 target="_blank"
                 rel="noopener noreferrer" href="https://librosa.org">librosa</a> is pure NumPy, CPU-only, but
-            indispensable for visualising spectrograms, diagnosing silence, clipping, or sample-rate
+            indispensable for visualizing spectrograms, diagnosing silence, clipping, or sample-rate
             mismatches in development. Generate a debug image whenever WER suddenly spikes — the
             spectrogram usually reveals the problem immediately.
           </p>
@@ -3631,7 +3646,7 @@ torch.onnx.<span class="fn">export</span>(
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 09</span>
-            <h2>Acoustic Models Landscape <span class="badge b-beginner">Beginner</span></h2>
+            <div class="heading-row heading-row-2"><h2>Acoustic Models Landscape</h2><span class="badge b-beginner">Beginner</span></div>
             <p class="ch-desc">
               Every major open-source STT model as of 2026 — architecture, accuracy, size, on-device
               viability, and the right choice for each deployment scenario.
@@ -3828,7 +3843,7 @@ torch.onnx.<span class="fn">export</span>(
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 10</span>
-            <h2>Whisper Architecture <span class="badge b-intermediate">Intermediate</span></h2>
+            <div class="heading-row heading-row-2"><h2>Whisper Architecture</h2><span class="badge b-intermediate">Intermediate</span></div>
             <div class="prereq-chips">
               <span class="prereq-label">Prerequisites:</span>
               <a class="prereq-chip" href="#s08">Feature Extraction</a>
@@ -3983,7 +3998,7 @@ segments, info = model.<span class="fn">transcribe</span>(
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 11</span>
-            <h2>Moonshine v1 &amp; v2 <span class="badge b-expert">Expert</span></h2>
+            <div class="heading-row heading-row-2"><h2>Moonshine v1 &amp; v2</h2><span class="badge b-expert">Expert</span></div>
             <div class="prereq-chips">
               <span class="prereq-label">Prerequisites:</span>
               <a class="prereq-chip" href="#s10">Whisper Architecture</a>
@@ -4032,7 +4047,7 @@ segments, info = model.<span class="fn">transcribe</span>(
               <code>ai.moonshine:moonshine-voice</code> on Maven Central (v0.0.70+) with JNI bindings,
               <code>MicTranscriber</code> API, and pre-bundled models. For most Android projects, use
               the official SDK instead of the manual ONNX Runtime integration below. See
-              <a href="#s21">§21</a> for details.
+              <a href="#s21">Section 21</a> for details.
             </div>
           </div>
           <pre tabindex="0" class="long-code" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// Manual ONNX Runtime integration — useful for custom inference engines
@@ -4145,7 +4160,7 @@ segments, info = model.<span class="fn">transcribe</span>(
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 12</span>
-            <h2>Streaming Decoders <span class="badge b-expert">Expert</span></h2>
+            <div class="heading-row heading-row-2"><h2>Streaming Decoders</h2><span class="badge b-expert">Expert</span></div>
             <div class="prereq-chips">
               <span class="prereq-label">Prerequisites:</span>
               <a class="prereq-chip" href="#s10">Whisper Architecture</a>
@@ -4295,7 +4310,7 @@ beams = decoder.<span class="fn">decode_beams</span>(logits, beam_width=<span cl
 
           <h3>Emitting Partial Results During Inference</h3>
           <p>
-            For a responsive UI, emit interim text as soon as CTC beam tokens stabilise across
+            For a responsive UI, emit interim text as soon as CTC beam tokens stabilize across
             consecutive frames. The prefix that has not changed in the last N frames can be
             displayed as a committed partial result.
           </p>
@@ -4343,7 +4358,7 @@ beams = decoder.<span class="fn">decode_beams</span>(logits, beam_width=<span cl
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 13</span>
-            <h2>Language Model Integration <span class="badge b-expert">Expert</span></h2>
+            <div class="heading-row heading-row-2"><h2>Language Model Integration</h2><span class="badge b-expert">Expert</span></div>
             <div class="prereq-chips">
               <span class="prereq-label">Prerequisites:</span>
               <a class="prereq-chip" href="#s12">Streaming Decoders</a>
@@ -4483,7 +4498,7 @@ print(result[<span class="str">"text"</span>])</code></pre>
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 14</span>
-            <h2>Post-Processing <span class="badge b-intermediate">Intermediate</span></h2>
+            <div class="heading-row heading-row-2"><h2>Post-Processing</h2><span class="badge b-intermediate">Intermediate</span></div>
             <p class="ch-desc">
               Punctuation restoration, capitalization, speaker diarization, and text normalization —
               transforming raw ASR output into human-readable text.
@@ -4531,10 +4546,10 @@ result = model.<span class="fn">restore_punctuation</span>(raw)
     }
 }</code></pre>
 
-          <h3>Inverse Text Normalisation — Numbers, Dates &amp; Currency</h3>
+          <h3>Inverse Text Normalization — Numbers, Dates &amp; Currency</h3>
           <p>
             ASR models output "three hundred and forty two dollars and fifty cents" rather than
-            "$342.50". Inverse text normalisation (ITN) converts these spoken-form expressions to
+            "$342.50". Inverse text normalization (ITN) converts these spoken-form expressions to
             written form. The NVIDIA NeMo library ships a production-grade, rule-based ITN engine
             that handles English, Spanish, German, and Russian without a GPU.
           </p>
@@ -4601,7 +4616,7 @@ segments = []
               <p>
                 pyannote.audio runs on a server or desktop Python environment — not on-device. For
                 mobile, send audio to your backend, run diarisation there, and return a
-                speaker-labelled JSON transcript. On-device speaker identification (not full
+                speaker-labeled JSON transcript. On-device speaker identification (not full
                 diarisation) is possible with speaker embedding models under 5&thinsp;MB, but full
                 multi-speaker diarisation requires cloud offload.
               </p>
@@ -5054,7 +5069,7 @@ segments = []
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 15</span>
-            <h2>LLM Formatting Layer <span class="badge b-intermediate">Intermediate</span></h2>
+            <div class="heading-row heading-row-2"><h2>LLM Formatting Layer</h2><span class="badge b-intermediate">Intermediate</span></div>
             <p class="ch-desc">
               Using a local or cloud LLM to apply punctuation, fix disfluencies, extract intent, and
               format transcripts — the final intelligence layer of the pipeline.
@@ -5225,7 +5240,7 @@ $entries
             Aawaaz introduced the concept of <strong>per-app tone matching</strong>: dictation in an
             email client should produce formal prose, while dictation in a chat app should feel
             casual and concise. This is achieved by detecting the foreground app's package name and
-            injecting a tone instruction into the LLM prompt. Wispr Flow hints at similar behaviour
+            injecting a tone instruction into the LLM prompt. Wispr Flow hints at similar behavior
             but keeps the algorithm proprietary.
           </p>
           <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
@@ -5330,7 +5345,7 @@ $entries
               <thead>
                 <tr>
                   <th scope="col">Mode</th>
-                  <th scope="col">Behaviour</th>
+                  <th scope="col">Behavior</th>
                   <th scope="col">Use Case</th>
                 </tr>
               </thead>
@@ -5495,10 +5510,7 @@ $entries
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 16</span>
-            <h2>
-              Android — Full Stack Implementation
-              <span class="badge b-intermediate">Intermediate</span>
-            </h2>
+            <div class="heading-row heading-row-2"><h2>Android — Full Stack Implementation</h2><span class="badge b-intermediate">Intermediate</span></div>
             <p class="ch-desc">
               The complete Android STT stack: audio capture → Silero VAD → whisper.cpp or Moonshine
               → post-processing → UI update, all wired together with Kotlin coroutines.
@@ -5693,7 +5705,7 @@ android {
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 17</span>
-            <h2>iOS Implementation <span class="badge b-intermediate">Intermediate</span></h2>
+            <div class="heading-row heading-row-2"><h2>iOS Implementation</h2><span class="badge b-intermediate">Intermediate</span></div>
             <p class="ch-desc">
               AVAudioEngine setup, Moonshine on iOS via WhisperKit, and the key differences from
               Android audio APIs.
@@ -5928,7 +5940,7 @@ pod 'onnxruntime-mobile-objc', '~> 1.27.0'</code></pre>
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 18</span>
-            <h2>Cloud Architecture <span class="badge b-beginner">Beginner</span></h2>
+            <div class="heading-row heading-row-2"><h2>Cloud Architecture</h2><span class="badge b-beginner">Beginner</span></div>
             <p class="ch-desc">
               WebSocket streaming to cloud STT providers, self-hosted Whisper via faster-whisper,
               and hybrid on-device/cloud fallback patterns.
@@ -6148,7 +6160,7 @@ asyncio.<span class="fn">run</span>(<span class="fn">stream_to_deepgram</span>(<
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 19</span>
-            <h2>Edge &amp; On-Device Optimization <span class="badge b-expert">Expert</span></h2>
+            <div class="heading-row heading-row-2"><h2>Edge &amp; On-Device Optimization</h2><span class="badge b-expert">Expert</span></div>
             <p class="ch-desc">
               INT8/INT4 quantization, ONNX Runtime optimization, NNAPI acceleration, thread tuning,
               and thermal management for sustained mobile inference.
@@ -6232,7 +6244,7 @@ powerManager.<span class="fn">addThermalStatusListener</span>(mainExecutor) { st
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 20</span>
-            <h2>whisper.cpp Deep Dive <span class="badge b-expert">Expert</span></h2>
+            <div class="heading-row heading-row-2"><h2>whisper.cpp Deep Dive</h2><span class="badge b-expert">Expert</span></div>
             <p class="ch-desc">
               ggml internals, GGML model format, quantization levels, CMake build for Android, and
               performance tuning.
@@ -6465,7 +6477,7 @@ params.greedy.best_of   = <span class="num">1</span>;
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 21</span>
-            <h2>Moonshine Deep Dive <span class="badge b-expert">Expert</span></h2>
+            <div class="heading-row heading-row-2"><h2>Moonshine Deep Dive</h2><span class="badge b-expert">Expert</span></div>
             <p class="ch-desc">
               Architecture internals, Moonshine v2 sliding-window attention math, ONNX export, and
               the complete SDK integration flow.
@@ -6721,7 +6733,7 @@ text = moonshine.<span class="fn">transcribe</span>(<span class="str">"audio.wav
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 22</span>
-            <h2>Sherpa-ONNX Pipeline <span class="badge b-expert">Expert</span></h2>
+            <div class="heading-row heading-row-2"><h2>Sherpa-ONNX Pipeline</h2><span class="badge b-expert">Expert</span></div>
             <p class="ch-desc">
               k2-fsa/sherpa-onnx: the production-grade cross-platform ASR framework supporting
               streaming CTC, Transducer, Moonshine, Whisper, and Silero VAD in a unified
@@ -7002,9 +7014,7 @@ vad.<span class="fn">acceptWaveform</span>(audioSamples)
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 23</span>
-            <h2>
-              Model Benchmarks &amp; Comparison <span class="badge b-beginner">Beginner</span>
-            </h2>
+            <div class="heading-row heading-row-2"><h2>Model Benchmarks &amp; Comparison</h2><span class="badge b-beginner">Beginner</span></div>
             <p class="ch-desc">
               Verified 2026 WER, RTFx, and on-device latency benchmarks across all major STT models
               — what actually matters for your deployment.
@@ -7029,7 +7039,7 @@ vad.<span class="fn">acceptWaveform</span>(audioSamples)
             typically 50–65% smaller (e.g., Moonshine Base: ~235 MB float32 → ~59 MB INT8, Moonshine
             Tiny: ~133 MB float32 → ~26 MB INT8). <strong>Note:</strong> WER Clean values here are
             LibriSpeech test-clean scores specifically. The 8-dataset Open ASR Leaderboard averages
-            (used in <a href="#s09">§09</a>) are higher — e.g., Whisper Large v3: 7.44%, Moonshine Base: 9.99%,
+            (used in <a href="#s09">Section 09</a>) are higher — e.g., Whisper Large v3: 7.44%, Moonshine Base: 9.99%,
             Moonshine Tiny: 12.65%.
           </p>
           <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
@@ -7269,7 +7279,7 @@ vad.<span class="fn">acceptWaveform</span>(audioSamples)
               <strong>Benchmarking Methodology</strong>
               <p>
                 Always benchmark on real hardware with the screen off and Wi-Fi disconnected to
-                minimise background activity. Run at least 20 passes and discard the first 3 (JIT
+                minimize background activity. Run at least 20 passes and discard the first 3 (JIT
                 warm-up). Report p50, p95, and p99 latency — p99 reflects the user experience on
                 slow or hot devices more accurately than mean.
               </p>
@@ -7287,9 +7297,7 @@ vad.<span class="fn">acceptWaveform</span>(audioSamples)
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 24</span>
-            <h2>
-              VoiceKeyboard IME Integration <span class="badge b-intermediate">Intermediate</span>
-            </h2>
+            <div class="heading-row heading-row-2"><h2>VoiceKeyboard IME Integration</h2><span class="badge b-intermediate">Intermediate</span></div>
             <p class="ch-desc">
               Wiring a full STT pipeline inside an Android InputMethodService — the complete voice
               keyboard architecture.
@@ -7392,7 +7400,7 @@ vad.<span class="fn">acceptWaveform</span>(audioSamples)
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 25</span>
-            <h2>Performance &amp; Optimization <span class="badge b-expert">Expert</span></h2>
+            <div class="heading-row heading-row-2"><h2>Performance &amp; Optimization</h2><span class="badge b-expert">Expert</span></div>
             <p class="ch-desc">
               Thread strategies, memory budget, battery profiling, end-to-end latency measurement,
               and the key optimizations ranked by impact.
@@ -7542,7 +7550,7 @@ python3 record_android_trace     -o trace.perfetto-trace     -t 15s     -b 64mb 
     <span class="kw">return</span> tokenizer.<span class="fn">decode</span>(tokens)
 }</code></pre>
 
-          <h3>Battery Optimisation: Wake Locks &amp; Doze Mode</h3>
+          <h3>Battery Optimization: Wake Locks &amp; Doze Mode</h3>
           <p>
             Transcription wakes the CPU from low-power idle. Acquire a
             <em>partial wake lock</em> only for the duration of inference — never hold it
@@ -7625,7 +7633,7 @@ python3 record_android_trace     -o trace.perfetto-trace     -t 15s     -b 64mb 
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 26</span>
-            <h2>Privacy &amp; Security <span class="badge b-beginner">Beginner</span></h2>
+            <div class="heading-row heading-row-2"><h2>Privacy &amp; Security</h2><span class="badge b-beginner">Beginner</span></div>
             <p class="ch-desc">
               On-device processing guarantees, audio data handling, permission transparency, and
               regulatory considerations for voice applications.
@@ -7813,7 +7821,7 @@ python3 record_android_trace     -o trace.perfetto-trace     -t 15s     -b 64mb 
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 27</span>
-            <h2>Troubleshooting <span class="badge b-beginner">Beginner</span></h2>
+            <div class="heading-row heading-row-2"><h2>Troubleshooting</h2><span class="badge b-beginner">Beginner</span></div>
             <p class="ch-desc">
               The definitive diagnostic guide for every common STT failure mode — with root cause
               analysis and fix for each.
@@ -7943,7 +7951,7 @@ HALLUCINATION_PATTERNS = [
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 28</span>
-            <h2>QA Checklist <span class="badge b-beginner">Beginner</span></h2>
+            <div class="heading-row heading-row-2"><h2>QA Checklist</h2><span class="badge b-beginner">Beginner</span></div>
             <p class="ch-desc">
               The complete pre-ship testing checklist for production STT systems — signal integrity,
               model quality, edge cases, and platform compliance.
@@ -8053,9 +8061,7 @@ HALLUCINATION_PATTERNS = [
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 29</span>
-            <h2>
-              Open Source Index &amp; References <span class="badge b-beginner">Beginner</span>
-            </h2>
+            <div class="heading-row heading-row-2"><h2>Open Source Index &amp; References</h2><span class="badge b-beginner">Beginner</span></div>
             <p class="ch-desc">
               Complete annotated index of all referenced libraries, models, frameworks, and
               documentation resources.
@@ -8086,7 +8092,7 @@ HALLUCINATION_PATTERNS = [
                   </td>
                   <td>Inference Engine</td>
                   <td>MIT</td>
-                  <td><a href="#s16">§16</a>, <a href="#s20">§20</a> — Android on-device Whisper via JNI</td>
+                  <td><a href="#s16">Section 16</a>, <a href="#s20">Section 20</a> — Android on-device Whisper via JNI</td>
                 </tr>
                 <tr>
                   <td>
@@ -8096,7 +8102,7 @@ HALLUCINATION_PATTERNS = [
                   </td>
                   <td>Model + SDK</td>
                   <td>MIT</td>
-                  <td><a href="#s11">§11</a>, <a href="#s16">§16</a>, <a href="#s21">§21</a> — Streaming on-device ASR</td>
+                  <td><a href="#s11">Section 11</a>, <a href="#s16">Section 16</a>, <a href="#s21">Section 21</a> — Streaming on-device ASR</td>
                 </tr>
                 <tr>
                   <td>
@@ -8106,7 +8112,7 @@ HALLUCINATION_PATTERNS = [
                   </td>
                   <td>Model</td>
                   <td>MIT</td>
-                  <td><a href="#s10">§10</a> — Reference architecture and Python API</td>
+                  <td><a href="#s10">Section 10</a> — Reference architecture and Python API</td>
                 </tr>
                 <tr>
                   <td>
@@ -8118,7 +8124,7 @@ HALLUCINATION_PATTERNS = [
                   </td>
                   <td>Inference Engine</td>
                   <td>MIT</td>
-                  <td><a href="#s18">§18</a> — Server-side high-throughput Whisper</td>
+                  <td><a href="#s18">Section 18</a> — Server-side high-throughput Whisper</td>
                 </tr>
                 <tr>
                   <td>
@@ -8128,7 +8134,7 @@ HALLUCINATION_PATTERNS = [
                   </td>
                   <td>Framework</td>
                   <td>Apache 2.0</td>
-                  <td><a href="#s22">§22</a> — Cross-platform ASR framework for Android</td>
+                  <td><a href="#s22">Section 22</a> — Cross-platform ASR framework for Android</td>
                 </tr>
                 <tr>
                   <td><a class="ext"
@@ -8136,7 +8142,7 @@ HALLUCINATION_PATTERNS = [
                 rel="noopener noreferrer" href="https://github.com/alphacep/vosk-api">vosk-api</a></td>
                   <td>Framework</td>
                   <td>Apache 2.0</td>
-                  <td><a href="#s09">§09</a> — Offline ASR, small models</td>
+                  <td><a href="#s09">Section 09</a> — Offline ASR, small models</td>
                 </tr>
                 <tr>
                   <td>
@@ -8146,7 +8152,7 @@ HALLUCINATION_PATTERNS = [
                   </td>
                   <td>iOS SDK</td>
                   <td>MIT</td>
-                  <td><a href="#s17">§17</a> — On-device Whisper for iOS/Swift</td>
+                  <td><a href="#s17">Section 17</a> — On-device Whisper for iOS/Swift</td>
                 </tr>
                 <tr>
                   <td>
@@ -8156,7 +8162,7 @@ HALLUCINATION_PATTERNS = [
                   </td>
                   <td>Inference Engine</td>
                   <td>MIT</td>
-                  <td><a href="#s06">§06</a>, <a href="#s11">§11</a>, <a href="#s16">§16</a> — ONNX model execution on Android</td>
+                  <td><a href="#s06">Section 06</a>, <a href="#s11">Section 11</a>, <a href="#s16">Section 16</a> — ONNX model execution on Android</td>
                 </tr>
               </tbody>
             </table>
@@ -8179,21 +8185,21 @@ HALLUCINATION_PATTERNS = [
                 rel="noopener noreferrer" href="https://github.com/snakers4/silero-vad">silero-vad</a>
                   </td>
                   <td>MIT</td>
-                  <td><a href="#s06">§06</a> — Primary VAD for all deployment targets</td>
+                  <td><a href="#s06">Section 06</a> — Primary VAD for all deployment targets</td>
                 </tr>
                 <tr>
                   <td><a class="ext"
                 target="_blank"
                 rel="noopener noreferrer" href="https://jmvalin.ca/demo/rnnoise/">RNNoise</a></td>
                   <td>BSD</td>
-                  <td><a href="#s05">§05</a> — Neural noise suppression</td>
+                  <td><a href="#s05">Section 05</a> — Neural noise suppression</td>
                 </tr>
                 <tr>
                   <td><a class="ext"
                 target="_blank"
                 rel="noopener noreferrer" href="https://webrtc.googlesource.com/src/">WebRTC APM</a></td>
                   <td>BSD</td>
-                  <td><a href="#s05">§05</a> — AEC, AGC, NS in one C++ library</td>
+                  <td><a href="#s05">Section 05</a> — AEC, AGC, NS in one C++ library</td>
                 </tr>
               </tbody>
             </table>
@@ -8345,7 +8351,7 @@ HALLUCINATION_PATTERNS = [
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 30</span>
-            <h2>Advanced Debugging Field Manual <span class="badge b-expert">Expert</span></h2>
+            <div class="heading-row heading-row-2"><h2>Advanced Debugging Field Manual</h2><span class="badge b-expert">Expert</span></div>
             <p class="ch-desc">
               Comprehensive taxonomy of real-world STT bugs, GGML/ONNX runtime crashes, AudioRecord
               failures, cloud API disconnects, VAD edge cases, and speaker diarization anomalies —
@@ -8356,7 +8362,7 @@ HALLUCINATION_PATTERNS = [
           </div>
 
           <p class="lead">
-            When standard troubleshooting fails, you need a field manual. This section catalogues
+            When standard troubleshooting fails, you need a field manual. This section catalogs
             the hard bugs — GGML runtime crashes, ONNX shape mismatches, AudioRecord edge cases,
             cloud API timeouts, and VAD false triggers — with the exact diagnostic command and
             verified fix for each.
@@ -9019,8 +9025,8 @@ assert(ctx != <span class="kw">nullptr</span> &amp;&amp; <span class="str">"Mode
                     <code>useful-moonshine-onnx</code> package
                   </td>
                   <td>
-                    Use the official <code>moonshine-voice</code> Maven package for Android (<a href="#s21">§21</a>); or
-                    run Moonshine via sherpa-onnx Android bindings (<a href="#s22">§22</a>) for unified pipeline management
+                    Use the official <code>moonshine-voice</code> Maven package for Android (<a href="#s21">Section 21</a>); or
+                    run Moonshine via sherpa-onnx Android bindings (<a href="#s22">Section 22</a>) for unified pipeline management
                   </td>
                 </tr>
                 <tr>
@@ -9321,9 +9327,7 @@ xcrun xctrace record --template "Allocations" \
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 31</span>
-            <h2>
-              Backtrack &amp; Self-Correction Engine <span class="badge b-expert">Expert</span>
-            </h2>
+            <div class="heading-row heading-row-2"><h2>Backtrack &amp; Self-Correction Engine</h2><span class="badge b-expert">Expert</span></div>
             <p class="ch-desc">
               Deep dive into detecting and resolving user self-corrections during dictation. Covers
               trigger-word detection, clause-scoped deletion, implicit restatement via LLM, and the
@@ -9393,7 +9397,7 @@ xcrun xctrace record --template "Allocations" \
           <h3>Trigger Word Vocabulary</h3>
           <p>
             Across Wispr Flow, aawaaz, and tambourine-voice, the following trigger words are
-            consistently recognised. Sorted by frequency-of-use from real dictation data:
+            consistently recognized. Sorted by frequency-of-use from real dictation data:
           </p>
           <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
@@ -9401,7 +9405,7 @@ xcrun xctrace record --template "Allocations" \
                 <tr>
                   <th scope="col">Trigger</th>
                   <th scope="col">Scope</th>
-                  <th scope="col">Behaviour</th>
+                  <th scope="col">Behavior</th>
                 </tr>
               </thead>
               <tbody>
@@ -9572,10 +9576,7 @@ xcrun xctrace record --template "Allocations" \
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 32</span>
-            <h2>
-              Personal Dictionary &amp; Auto-Learning
-              <span class="badge b-intermediate">Intermediate</span>
-            </h2>
+            <div class="heading-row heading-row-2"><h2>Personal Dictionary &amp; Auto-Learning</h2><span class="badge b-intermediate">Intermediate</span></div>
             <p class="ch-desc">
               Architecture for user-managed and auto-learned personal dictionaries that improve
               recognition of names, jargon, and domain-specific vocabulary. Covers manual entries,
@@ -9821,7 +9822,7 @@ xcrun xctrace record --template "Allocations" \
           <div class="section-break"></div>
           <div class="chapter">
             <span class="chapter-num">Section 33</span>
-            <h2>Voice Command Mode Architecture <span class="badge b-expert">Expert</span></h2>
+            <div class="heading-row heading-row-2"><h2>Voice Command Mode Architecture</h2><span class="badge b-expert">Expert</span></div>
             <p class="ch-desc">
               Design and implementation of a voice-activated command system for text manipulation,
               web search, and app control. Covers Wispr Flow's "Command Mode", aawaaz's command
@@ -9878,7 +9879,7 @@ xcrun xctrace record --template "Allocations" \
 
           <h3>Wispr Flow Command Vocabulary</h3>
           <p>
-            Wispr Flow supports free-form commands (any instruction the user speaks) plus recognised
+            Wispr Flow supports free-form commands (any instruction the user speaks) plus recognized
             shortcuts for common operations:
           </p>
           <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
@@ -10117,7 +10118,7 @@ Return ONLY the generated text."""</span>
 
         <footer class="doc-footer">
           <div>
-            <div class="footer-brand">Mobile STT Engineering Guide</div>
+            <div class="footer-brand">Mobile Speech-to-Text Engineering Guide</div>
             <p class="footer-meta-desc">
               2026 Complete Edition — 33 Sections · Kotlin · Python · C++ · ONNX · Moonshine v2 ·
               whisper.cpp · Silero VAD v6
@@ -10139,6 +10140,7 @@ Return ONLY the generated text."""</span>
             </span>
             <a href="#cover" class="return-to-top-link">↑ Return to top</a>
           </div>
+        <nav class="series-links" aria-label="More guides from Made in Jurgistan"><strong>More guides in the series</strong><ul><li><a href="https://Made-in-Jurgistan.github.io/debugging-field-manual/">Debugging Field Manual</a></li><li><a href="https://Made-in-Jurgistan.github.io/android-keyboard-design-guide/">Android Keyboard Design Guide</a></li><li><a href="https://Made-in-Jurgistan.github.io/android-keyboard-design-guide-3d-personalization/">Android Keyboard Design Guide: 3D &amp; Personalization</a></li><li><a href="https://Made-in-Jurgistan.github.io/superclaude-field-guide/">The SuperClaude Field Guide</a></li></ul></nav>
         </footer>
         </div>
         <!-- /.content-inner -->
@@ -10179,5 +10181,24 @@ Return ONLY the generated text."""</span>
       })();
     </script>
 
+      <script>
+      (function () {
+        'use strict';
+        if (!navigator.clipboard) return;
+        var ico = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="8.5" y="8.5" width="12" height="12" rx="2"/><path d="M15.5 8.5V5.5a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h3"/></svg>';
+        document.querySelectorAll('pre > code').forEach(function (code) {
+          var pre = code.parentElement, btn = document.createElement('button');
+          btn.type = 'button'; btn.className = 'copy-btn'; btn.setAttribute('aria-label', 'Copy code to clipboard');
+          btn.innerHTML = ico + '<span>Copy</span>';
+          btn.addEventListener('click', function () {
+            navigator.clipboard.writeText(code.textContent.replace(/\n$/, '')).then(function () {
+              var label = btn.querySelector('span'); label.textContent = 'Copied';
+              setTimeout(function () { label.textContent = 'Copy'; }, 1400);
+            });
+          });
+          pre.appendChild(btn);
+        });
+      })();
+    </script>
   </body>
 </html>
