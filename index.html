@@ -64,7 +64,7 @@
         --ink-700: #46413c;
         --ink-600: #5a534c;
         --ink-500: #6e665e;
-        --ink-400: #8d857c;
+        --ink-400: #6e665e;
         --ink-300: #aca49b;
         --ink-200: #ccc5bc;
         --ink-100: #e4ddd4;
@@ -85,7 +85,7 @@
         --beginner-bg: #e9f6ee;
         --beginner-bd: #9ed4b4;
 
-        --intermediate: #b25a1a;
+        --intermediate: #9c4d12;
         --inter-bg: #fdf2e6;
         --inter-bd: #ecc08a;
 
@@ -94,8 +94,8 @@
         --expert-bd: #c4a0db;
 
         /* ── Pipeline Layer Colors ── */
-        --layer-capture: #0ea5e9;
-        --layer-preproc: #0891b2;
+        --layer-capture: #0369a1;
+        --layer-preproc: #0e7490;
         --layer-vad: #2a7a48;
         --layer-stream: #b25a1a;
         --layer-features: #6b2d8b;
@@ -117,11 +117,11 @@
         --code-bg: #f0ebe2;
         --code-kw: #6b2d8b;
         --code-fn: #0047ab;
-        --code-str: #2a7a48;
-        --code-cm: #8d857c;
-        --code-num: #b25a1a;
+        --code-str: #22693c;
+        --code-cm: #6e665e;
+        --code-num: #9c4d12;
         --code-ty: #1e5ea8;
-        --code-an: #0e896a;
+        --code-an: #0b6e55;
 
         /* ── Layout ── */
         --sidebar-w: 274px;
@@ -1689,28 +1689,24 @@
         margin-right: 2.5cm;
       }
 
-      /* ── Advanced Paged Media (requires Paged.js polyfill or WeasyPrint/Prince) ── */
+      /* ── Native paged media (Chrome 131+, Firefox, WeasyPrint, Prince) ── */
       @page chapter {
-        @top-center {
-          content: string(chapter-title);
-          font-size: 9pt;
-          color: #666;
-        }
         @bottom-center {
           content: counter(page) " / " counter(pages);
+          font-family: 'DM Sans', 'Segoe UI', Arial, sans-serif;
           font-size: 9pt;
           color: #666;
         }
         @bottom-right {
           content: "Mobile STT Engineering Guide";
+          font-family: 'DM Sans', 'Segoe UI', Arial, sans-serif;
           font-size: 8pt;
-          color: #999;
+          color: #6b6b6b;
         }
       }
       @media print {
         .chapter {
           page: chapter;
-          string-set: chapter-title content();
         }
         h1, h2, h3 {
           bookmark-level: none;
@@ -2108,6 +2104,17 @@
           content-visibility: visible;
         }
       }
+    
+      /* ── Reflow at 320 px (WCAG 1.4.10): long strings wrap instead of widening the page ── */
+      p code, li code, td code, th code, .callout-body, .callout-body code, .ref-list li, a.ext, .spec-note, .ch-desc {
+        overflow-wrap: anywhere;
+      }
+      .callout-body, .tool-card, .spec-card, .role-card { min-width: 0; }
+      p a, li a, td a { text-decoration: underline; text-underline-offset: 2px; }
+
+      /* ── WCAG 2.5.8 target size: in-page jump links get a 24 px hit area ── */
+      .return-to-top a, .back-to-top a, .return-to-top-link { display: inline-block; min-height: 24px; padding: 4px 6px; }
+      main li > a:only-child { display: inline-block; padding-block: 3px; }
     </style>
     <script type="application/ld+json">
       {
@@ -2415,7 +2422,7 @@
             and optimization surface. End-to-end models like Moonshine and whisper.cpp collapse
             stages 5–7, but they don't eliminate the others.
           </p>
-          <div class="pipeline-box">
+          <div class="pipeline-box" tabindex="0" role="region" aria-label="Process steps">
             <div class="pipeline-row">
               <div class="p-step">
                 <div class="p-step-box ps-capture">Audio Capture</div>
@@ -2469,7 +2476,7 @@
             </div>
           </div>
           <h3>Stage Responsibilities</h3>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -2597,7 +2604,7 @@
             measures the minimum edit distance (Levenshtein distance) between the model output
             (hypothesis) and the ground truth (reference), normalized by reference length:
           </p>
-          <pre><code lang="text"><span class="lang-label">Formula</span>
+          <pre tabindex="0" translate="no"><code data-lang="text"><span class="lang-label">Formula</span>
 WER = (Substitutions + Deletions + Insertions) / Total Reference Words × 100%
 
 Example:
@@ -2619,7 +2626,7 @@ WER = 1 deletion / 5 words = 20%</code></pre>
             <strong>Real-Time Factor (RTF)</strong> measures processing time relative to audio
             duration:
           </p>
-          <pre><code lang="text"><span class="lang-label">Formula</span>
+          <pre tabindex="0" translate="no"><code data-lang="text"><span class="lang-label">Formula</span>
 RTF = Processing Time / Audio Duration
 
 RTF &lt; 0.1  → 10× faster than real-time (excellent for streaming)
@@ -2744,12 +2751,12 @@ RTF &gt; 1.0  → slower than real-time (batch only)</code></pre>
             built-in AGC applied invisibly — use <code>MIC</code> and handle your own signal chain.
           </p>
           <h3>Manifest &amp; Runtime Permission</h3>
-          <pre><code lang="xml"><span class="lang-label">XML</span><span class="cm">&lt;!-- AndroidManifest.xml --&gt;</span>
+          <pre tabindex="0" translate="no"><code data-lang="xml"><span class="lang-label">XML</span><span class="cm">&lt;!-- AndroidManifest.xml --&gt;</span>
 <span class="tg">&lt;uses-permission</span> <span class="at">android:name</span>=<span class="str">"android.permission.RECORD_AUDIO"</span> <span class="tg">/&gt;</span>
 <span class="tg">&lt;uses-feature</span>
     <span class="at">android:name</span>=<span class="str">"android.hardware.microphone"</span>
     <span class="at">android:required</span>=<span class="str">"true"</span> <span class="tg">/&gt;</span></code></pre>
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// Runtime permission check — required since API 23</span>
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// Runtime permission check — required since API 23</span>
 <span class="kw">fun</span> <span class="fn">hasMicPermission</span>(context: <span class="ty">Context</span>): <span class="ty">Boolean</span> =
     <span class="ty">ContextCompat</span>.<span class="fn">checkSelfPermission</span>(context, <span class="ty">Manifest</span>.permission.RECORD_AUDIO) ==
         <span class="ty">PackageManager</span>.PERMISSION_GRANTED
@@ -2762,7 +2769,7 @@ RTF &gt; 1.0  → slower than real-time (batch only)</code></pre>
 }
 <span class="cm">// Launch: requestMic.launch(Manifest.permission.RECORD_AUDIO)</span></code></pre>
           <h3>Full AudioRecord Implementation (Kotlin Coroutines)</h3>
-          <pre class="long-code"><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="kw">import</span> android.media.*
+          <pre tabindex="0" class="long-code" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="kw">import</span> android.media.*
 <span class="kw">import</span> kotlinx.coroutines.*
 <span class="kw">import</span> kotlinx.coroutines.flow.*
 <span class="kw">import</span> java.nio.ByteBuffer
@@ -2850,7 +2857,7 @@ RTF &gt; 1.0  → slower than real-time (batch only)</code></pre>
             When running audio capture inside an <code>InputMethodService</code> (keyboard IME), you
             must manage the capture lifecycle from IME callbacks rather than Activity lifecycle:
           </p>
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="kw">class</span> <span class="ty">VoiceKeyboardService</span> : <span class="ty">InputMethodService</span>() {
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="kw">class</span> <span class="ty">VoiceKeyboardService</span> : <span class="ty">InputMethodService</span>() {
 
     <span class="kw">private val</span> serviceScope = <span class="ty">CoroutineScope</span>(<span class="ty">SupervisorJob</span>() + <span class="ty">Dispatchers</span>.Main)
     <span class="kw">private lateinit var</span> captureManager: <span class="ty">AudioCaptureManager</span>
@@ -2972,7 +2979,7 @@ RTF &gt; 1.0  → slower than real-time (batch only)</code></pre>
             <code>AudioEffect</code>. It's hardware-dependent — quality varies dramatically across
             devices. Use it as a fallback when you can't include a third-party NS library:
           </p>
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="kw">import</span> android.media.audiofx.NoiseSuppressor
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="kw">import</span> android.media.audiofx.NoiseSuppressor
 
 <span class="kw">fun</span> <span class="fn">tryEnableSystemNS</span>(audioSession: <span class="ty">Int</span>): <span class="ty">NoiseSuppressor</span>? {
     <span class="kw">if</span> (!<span class="ty">NoiseSuppressor</span>.<span class="fn">isAvailable</span>()) <span class="kw">return null</span>
@@ -2986,7 +2993,7 @@ RTF &gt; 1.0  → slower than real-time (batch only)</code></pre>
 }
 <span class="cm">// audioSession = audioRecord.audioSessionId</span></code></pre>
           <h3>RMS-Based AGC (Python — for server-side pipelines)</h3>
-          <pre><code lang="python"><span class="lang-label">Python</span><span class="kw">import</span> numpy <span class="kw">as</span> np
+          <pre tabindex="0" translate="no"><code data-lang="python"><span class="lang-label">Python</span><span class="kw">import</span> numpy <span class="kw">as</span> np
 
 <span class="kw">def</span> <span class="fn">normalize_rms</span>(audio: np.ndarray, target_rms: float = <span class="num">0.1</span>) -&gt; np.ndarray:
     <span class="str">"""RMS-based amplitude normalization. Safe for silence."""</span>
@@ -3070,7 +3077,7 @@ RTF &gt; 1.0  → slower than real-time (batch only)</code></pre>
             inside Moonshine Voice and can be enabled with a flag in whisper.cpp.
           </p>
           <h3>Silero VAD — Python Streaming Integration</h3>
-          <pre class="long-code"><code lang="python"><span class="lang-label">Python</span><span class="kw">import</span> numpy <span class="kw">as</span> np
+          <pre tabindex="0" class="long-code" translate="no"><code data-lang="python"><span class="lang-label">Python</span><span class="kw">import</span> numpy <span class="kw">as</span> np
 <span class="kw">import</span> torch
 <span class="kw">import</span> onnxruntime <span class="kw">as</span> ort
 <span class="kw">from</span> typing <span class="kw">import</span> Optional, Callable
@@ -3124,7 +3131,7 @@ RTF &gt; 1.0  → slower than real-time (batch only)</code></pre>
                 self._reset()
         <span class="kw">return</span> prob</code></pre>
           <h3>Silero VAD — Android Kotlin via ONNX Runtime</h3>
-          <pre class="long-code"><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// build.gradle.kts dependency:</span>
+          <pre tabindex="0" class="long-code" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// build.gradle.kts dependency:</span>
 <span class="cm">// implementation("com.microsoft.onnxruntime:onnxruntime-android:1.27.0")</span>
 <span class="cm">// Copy silero_vad.onnx to app/src/main/assets/</span>
 
@@ -3210,7 +3217,7 @@ RTF &gt; 1.0  → slower than real-time (batch only)</code></pre>
             </div>
           </div>
           <h3>VAD Comparison</h3>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -3295,7 +3302,7 @@ RTF &gt; 1.0  → slower than real-time (batch only)</code></pre>
             Larger chunks give models more context and typically improve accuracy; smaller chunks
             reduce first-token latency. The right balance depends on your model architecture:
           </p>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -3334,7 +3341,7 @@ RTF &gt; 1.0  → slower than real-time (batch only)</code></pre>
             </table>
           </div>
           <h3>Ring Buffer Pattern (Kotlin)</h3>
-          <pre class="long-code"><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
+          <pre tabindex="0" class="long-code" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
  * Thread-safe ring buffer for audio samples.
  * Producer: AudioRecord callback thread.
  * Consumer: STT inference thread.
@@ -3367,7 +3374,7 @@ RTF &gt; 1.0  → slower than real-time (batch only)</code></pre>
     <span class="kw">fun</span> <span class="fn">availableSamples</span>(): <span class="ty">Int</span> = available
 }</code></pre>
           <h3>WebSocket Streaming to Server (Kotlin + OkHttp)</h3>
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// Streaming PCM audio to a cloud STT WebSocket endpoint</span>
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// Streaming PCM audio to a cloud STT WebSocket endpoint</span>
 <span class="cm">// Compatible with Deepgram, AssemblyAI real-time API, and custom servers</span>
 <span class="kw">import</span> okhttp3.*
 <span class="kw">import</span> java.nio.ByteBuffer
@@ -3443,7 +3450,7 @@ RTF &gt; 1.0  → slower than real-time (batch only)</code></pre>
             encoder itself.
           </p>
           <h3>Log-Mel Spectrogram (Python — matches Whisper's exact spec)</h3>
-          <pre><code lang="python"><span class="lang-label">Python</span><span class="kw">import</span> numpy <span class="kw">as</span> np
+          <pre tabindex="0" translate="no"><code data-lang="python"><span class="lang-label">Python</span><span class="kw">import</span> numpy <span class="kw">as</span> np
 
 <span class="kw">def</span> <span class="fn">log_mel_spectrogram</span>(audio: np.ndarray, sr: int = <span class="num">16000</span>,
                          n_mels: int = <span class="num">80</span>, n_fft: int = <span class="num">400</span>,
@@ -3495,7 +3502,7 @@ RTF &gt; 1.0  → slower than real-time (batch only)</code></pre>
             of audio on a V100. Use it for server-side training pipelines, batch transcription
             evaluation, and offline data preprocessing.
           </p>
-          <pre><code lang="python"><span class="lang-label">Python</span><span class="cm"># pip install torchaudio torch</span>
+          <pre tabindex="0" translate="no"><code data-lang="python"><span class="lang-label">Python</span><span class="cm"># pip install torchaudio torch</span>
 <span class="kw">import</span> torch
 <span class="kw">import</span> torchaudio
 <span class="kw">import</span> torchaudio.transforms <span class="kw">as</span> T
@@ -3532,7 +3539,7 @@ RTF &gt; 1.0  → slower than real-time (batch only)</code></pre>
             mismatches in development. Generate a debug image whenever WER suddenly spikes — the
             spectrogram usually reveals the problem immediately.
           </p>
-          <pre><code lang="python"><span class="lang-label">Python</span><span class="cm"># pip install librosa soundfile matplotlib</span>
+          <pre tabindex="0" translate="no"><code data-lang="python"><span class="lang-label">Python</span><span class="cm"># pip install librosa soundfile matplotlib</span>
 <span class="kw">import</span> librosa, librosa.display
 <span class="kw">import</span> numpy <span class="kw">as</span> np
 <span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
@@ -3582,7 +3589,7 @@ plt.<span class="fn">savefig</span>(<span class="str">"mel_debug.png"</span>, dp
             16&thinsp;kHz PCM floats and emits a [1, 80, T] mel tensor, consumed directly by the ASR
             model session.
           </p>
-          <pre><code lang="python"><span class="lang-label">Python</span><span class="cm"># Export stand-alone mel spectrogram ONNX for Android bundling</span>
+          <pre tabindex="0" translate="no"><code data-lang="python"><span class="lang-label">Python</span><span class="cm"># Export stand-alone mel spectrogram ONNX for Android bundling</span>
 <span class="kw">import</span> torch
 <span class="kw">import</span> torchaudio.transforms <span class="kw">as</span> T
 
@@ -3633,7 +3640,7 @@ torch.onnx.<span class="fn">export</span>(
             server-side throughput; whisper.cpp leads on portable embedding. Choose based on your
             constraints, not on benchmark headlines.
           </p>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -3866,7 +3873,7 @@ torch.onnx.<span class="fn">export</span>(
             </li>
           </ul>
           <h3>Whisper Model Variants</h3>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -3945,7 +3952,7 @@ torch.onnx.<span class="fn">export</span>(
             </div>
           </div>
           <h3>Suppressing Whisper Hallucinations</h3>
-          <pre><code lang="python"><span class="lang-label">Python</span><span class="kw">from</span> faster_whisper <span class="kw">import</span> WhisperModel
+          <pre tabindex="0" translate="no"><code data-lang="python"><span class="lang-label">Python</span><span class="kw">from</span> faster_whisper <span class="kw">import</span> WhisperModel
 
 <span class="cm"># Whisper hallucination suppression strategies (faster-whisper API)</span>
 model = <span class="ty">WhisperModel</span>(<span class="str">"small"</span>, device=<span class="str">"cpu"</span>, compute_type=<span class="str">"int8"</span>)
@@ -4025,7 +4032,7 @@ segments, info = model.<span class="fn">transcribe</span>(
               <a href="#s21">§21</a> for details.
             </div>
           </div>
-          <pre class="long-code"><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// Manual ONNX Runtime integration — useful for custom inference engines
+          <pre tabindex="0" class="long-code" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// Manual ONNX Runtime integration — useful for custom inference engines
 // For most projects, use the official SDK: ai.moonshine:moonshine-voice (§21)
 // Or integrate via Gradle using ONNX Runtime + Moonshine ONNX models</span>
 
@@ -4154,7 +4161,7 @@ segments, info = model.<span class="fn">transcribe</span>(
             stream partial results or must wait for a complete utterance.
           </p>
           <h3>CTC Greedy Decode (Python)</h3>
-          <pre><code lang="python"><span class="lang-label">Python</span><span class="kw">import</span> numpy <span class="kw">as</span> np
+          <pre tabindex="0" translate="no"><code data-lang="python"><span class="lang-label">Python</span><span class="kw">import</span> numpy <span class="kw">as</span> np
 <span class="kw">from</span> typing <span class="kw">import</span> List
 
 <span class="kw">def</span> <span class="fn">ctc_greedy_decode</span>(log_probs: np.ndarray, blank_id: int = <span class="num">0</span>,
@@ -4202,7 +4209,7 @@ segments, info = model.<span class="fn">transcribe</span>(
             integration. It is model-agnostic: pass logits from any CTC-trained model (wav2vec 2.0,
             MMS, HuBERT) and it returns the best transcription.
           </p>
-          <pre><code lang="python"><span class="lang-label">Python</span><span class="cm"># pip install pyctcdecode kenlm</span>
+          <pre tabindex="0" translate="no"><code data-lang="python"><span class="lang-label">Python</span><span class="cm"># pip install pyctcdecode kenlm</span>
 <span class="kw">from</span> pyctcdecode <span class="kw">import</span> build_ctcdecoder
 <span class="kw">import</span> kenlm, numpy <span class="kw">as</span> np
 
@@ -4239,7 +4246,7 @@ beams = decoder.<span class="fn">decode_beams</span>(logits, beam_width=<span cl
             Moonshine v2 under the hood) achieve lower latency than CTC at the cost of more complex
             inference logic.
           </p>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -4289,7 +4296,7 @@ beams = decoder.<span class="fn">decode_beams</span>(logits, beam_width=<span cl
             consecutive frames. The prefix that has not changed in the last N frames can be
             displayed as a committed partial result.
           </p>
-          <pre><code lang="python"><span class="lang-label">Python</span><span class="cm"># Streaming partial-result pattern (CTC beam search)</span>
+          <pre tabindex="0" translate="no"><code data-lang="python"><span class="lang-label">Python</span><span class="cm"># Streaming partial-result pattern (CTC beam search)</span>
 <span class="kw">from</span> pyctcdecode <span class="kw">import</span> BeamSearchDecoderCTC
 <span class="kw">import</span> numpy <span class="kw">as</span> np
 
@@ -4360,7 +4367,7 @@ beams = decoder.<span class="fn">decode_beams</span>(logits, beam_width=<span cl
             15–30%.
           </p>
           <h3>Hot-Word Biasing (Whisper)</h3>
-          <pre><code lang="python"><span class="lang-label">Python</span><span class="kw">import</span> whisper
+          <pre tabindex="0" translate="no"><code data-lang="python"><span class="lang-label">Python</span><span class="kw">import</span> whisper
 
 <span class="cm"># Whisper supports initial prompting to bias decoding toward known terms.
 # For a medical app, pre-seed the decoder with domain vocabulary:</span>
@@ -4383,7 +4390,7 @@ result = model.<span class="fn">transcribe</span>(
             decoder on specialised vocabulary (medical, legal, brand names). A 4-gram KenLM model
             trained on 50&thinsp;MB of domain text typically cuts domain WER by 15–30%.
           </p>
-          <pre><code lang="bash"><span class="lang-label">Bash</span><span class="cm"># Step 1 — Build KenLM tools (Ubuntu/Debian)</span>
+          <pre tabindex="0" translate="no"><code data-lang="bash"><span class="lang-label">Bash</span><span class="cm"># Step 1 — Build KenLM tools (Ubuntu/Debian)</span>
 sudo apt-get install -y build-essential cmake libboost-all-dev     libeigen3-dev liblzma-dev libbz2-dev
 
 git clone https://github.com/kpu/kenlm.git
@@ -4402,7 +4409,7 @@ sort -u raw_corpus.txt | grep -v '^\s*$' &gt; corpus.txt
 echo "LM ready: $(du -sh lm.binary | cut -f1)"</code></pre>
 
           <h3>pyctcdecode + KenLM Integrated with Any CTC Model</h3>
-          <pre><code lang="python"><span class="lang-label">Python</span><span class="cm"># pip install pyctcdecode kenlm transformers</span>
+          <pre tabindex="0" translate="no"><code data-lang="python"><span class="lang-label">Python</span><span class="cm"># pip install pyctcdecode kenlm transformers</span>
 <span class="kw">from</span> transformers <span class="kw">import</span> Wav2Vec2Processor, Wav2Vec2ForCTC
 <span class="kw">from</span> pyctcdecode <span class="kw">import</span> build_ctcdecoder
 <span class="kw">import</span> torch, kenlm, soundfile <span class="kw">as</span> sf, numpy <span class="kw">as</span> np
@@ -4437,7 +4444,7 @@ print(text)</code></pre>
             the <code>initial_prompt</code> parameter — it prepends a text prompt to the decoder
             context, shifting the probability distribution toward words in that prompt.
           </p>
-          <pre><code lang="python"><span class="lang-label">Python</span><span class="cm"># Whisper initial_prompt: bias toward medical / domain vocabulary</span>
+          <pre tabindex="0" translate="no"><code data-lang="python"><span class="lang-label">Python</span><span class="cm"># Whisper initial_prompt: bias toward medical / domain vocabulary</span>
 <span class="kw">import</span> whisper
 
 model = whisper.<span class="fn">load_model</span>(<span class="str">"small"</span>)
@@ -4486,7 +4493,7 @@ print(result[<span class="str">"text"</span>])</code></pre>
             punctuation and sentence-case capitalization.
           </p>
           <h3>Tool: DeepMultilingualPunctuation</h3>
-          <pre><code lang="python"><span class="lang-label">Python</span><span class="cm"># pip install deepmultilingualpunctuation</span>
+          <pre tabindex="0" translate="no"><code data-lang="python"><span class="lang-label">Python</span><span class="cm"># pip install deepmultilingualpunctuation</span>
 <span class="kw">from</span> deepmultilingualpunctuation <span class="kw">import</span> PunctuationModel
 
 model = <span class="ty">PunctuationModel</span>(model=<span class="str">"oliverguhr/fullstop-punctuation-multilang-large"</span>)
@@ -4495,7 +4502,7 @@ raw = <span class="str">"the meeting starts at three pm tomorrow john will prese
 result = model.<span class="fn">restore_punctuation</span>(raw)
 <span class="cm"># → "The meeting starts at three pm. Tomorrow, John will present the quarterly results."</span></code></pre>
           <h3>Simple Android Post-Processing (Kotlin)</h3>
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="kw">object</span> <span class="ty">TranscriptPostProcessor</span> {
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="kw">object</span> <span class="ty">TranscriptPostProcessor</span> {
 
     <span class="cm">// Number word → digit substitution (EN)</span>
     <span class="kw">private val</span> numberMap = mapOf(
@@ -4528,7 +4535,7 @@ result = model.<span class="fn">restore_punctuation</span>(raw)
             written form. The NVIDIA NeMo library ships a production-grade, rule-based ITN engine
             that handles English, Spanish, German, and Russian without a GPU.
           </p>
-          <pre><code lang="python"><span class="lang-label">Python</span><span class="cm"># pip install nemo_text_processing</span>
+          <pre tabindex="0" translate="no"><code data-lang="python"><span class="lang-label">Python</span><span class="cm"># pip install nemo_text_processing</span>
 <span class="kw">from</span> nemo_text_processing.text_normalization.normalize <span class="kw">import</span> Normalizer
 <span class="kw">from</span> nemo_text_processing.inverse_text_normalization.inverse_normalize     <span class="kw">import</span> InverseNormalizer
 
@@ -4555,7 +4562,7 @@ examples = [
             interview analysis, and any multi-speaker scenario. A HuggingFace token is required to
             download the <code>pyannote/speaker-diarization-3.1</code> checkpoint.
           </p>
-          <pre><code lang="python"><span class="lang-label">Python</span><span class="cm"># pip install pyannote.audio</span>
+          <pre tabindex="0" translate="no"><code data-lang="python"><span class="lang-label">Python</span><span class="cm"># pip install pyannote.audio</span>
 <span class="kw">from</span> pyannote.audio <span class="kw">import</span> Pipeline
 <span class="kw">import</span> whisper
 
@@ -4608,7 +4615,7 @@ segments = []
             but meaningful in other contexts (e.g., "like" in "I like pizza" vs. "I was like going
             to the store").
           </p>
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
  * Configurable filler word removal engine.
  * Runs before LLM or punctuation model — pure regex, &lt;1ms latency.
  *
@@ -4662,7 +4669,7 @@ segments = []
             system should layer both: rule-based for explicit triggers (fast path), LLM for implicit
             corrections (quality path).
           </p>
-          <pre class="long-code"><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
+          <pre tabindex="0" class="long-code" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
  * Self-correction / backtrack detection engine.
  *
  * Detects explicit correction triggers and removes the preceding clause.
@@ -4739,7 +4746,7 @@ segments = []
             punctuation. A <strong>command parser</strong> scans the raw transcript for these
             keywords and substitutes the corresponding symbol or formatting action.
           </p>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -4912,7 +4919,7 @@ segments = []
               </tbody>
             </table>
           </div>
-          <pre class="long-code"><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
+          <pre tabindex="0" class="long-code" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
  * Voice punctuation command parser.
  * Scans raw transcript for spoken punctuation commands and substitutes symbols.
  *
@@ -5003,7 +5010,7 @@ segments = []
             output before any LLM formatting pass. The pipeline order matters: fillers first, then
             self-correction, then punctuation commands, then capitalization.
           </p>
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
  * Complete pre-LLM text processing pipeline.
  * Order: fillers → backtrack → punctuation commands → capitalisation → ITN
  * Total latency budget: &lt;5ms for typical sentence lengths.
@@ -5057,7 +5064,7 @@ segments = []
             and the LLM only processes text (token-efficient and fast).
           </p>
           <h3>Cloud LLM Formatting (Python)</h3>
-          <pre><code lang="python"><span class="lang-label">Python</span><span class="kw">import</span> anthropic
+          <pre tabindex="0" translate="no"><code data-lang="python"><span class="lang-label">Python</span><span class="kw">import</span> anthropic
 
 client = anthropic.<span class="fn">Anthropic</span>()
 
@@ -5086,7 +5093,7 @@ Return JSON with:
     <span class="kw">import</span> json
     <span class="kw">return</span> json.<span class="fn">loads</span>(response.content[<span class="num">0</span>].text)</code></pre>
           <h3>On-Device LLM Formatting (Gemma 3 via MediaPipe)</h3>
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// Requires: com.google.mediapipe:tasks-genai:0.10.22+
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// Requires: com.google.mediapipe:tasks-genai:0.10.22+
 // Model: gemma-3-1b-it (.task format, ~675MB int4 quantized, fits on most Android 12+ devices)</span>
 
 <span class="kw">import</span> com.google.mediapipe.tasks.genai.llminference.*
@@ -5125,7 +5132,7 @@ Corrected:"""</span>
             and configurable than a single monolithic prompt. Aawaaz and Phemy adopted variations of
             the same pattern.
           </p>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -5153,7 +5160,7 @@ Corrected:"""</span>
               </tbody>
             </table>
           </div>
-          <pre class="long-code"><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
+          <pre tabindex="0" class="long-code" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
  * Multi-part prompt builder for LLM formatting.
  * Inspired by tambourine-voice's 3-part system, adapted for on-device Qwen/Gemma.
  *
@@ -5218,7 +5225,7 @@ $entries
             injecting a tone instruction into the LLM prompt. Wispr Flow hints at similar behaviour
             but keeps the algorithm proprietary.
           </p>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -5268,7 +5275,7 @@ $entries
               </tbody>
             </table>
           </div>
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
  * Context-aware tone matching for LLM formatting.
  * Detects the foreground app and injects a tone instruction.
  *
@@ -5315,7 +5322,7 @@ $entries
             practice, combine this with auto-detection (tone matching) as the default, allowing
             manual override.
           </p>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -5377,7 +5384,7 @@ $entries
             Phemy both chose Qwen3 for macOS; the Android ecosystem has better Gemma integration via
             MediaPipe, but Qwen3 via llama.cpp is fully viable.
           </p>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -5441,7 +5448,7 @@ $entries
               </p>
             </div>
           </div>
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
  * On-device LLM formatting with Qwen3 via llama.cpp JNI.
  * Uses non-thinking mode for lowest latency.
  *
@@ -5510,7 +5517,7 @@ $entries
             repository. The JNI bridge is implemented in <code>jni.c</code> and exposes a
             <code>WhisperLib</code> Kotlin companion object.
           </p>
-          <pre class="long-code"><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// WhisperLib.kt — Kotlin JNI bridge to whisper.cpp
+          <pre tabindex="0" class="long-code" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// WhisperLib.kt — Kotlin JNI bridge to whisper.cpp
 // Matches the official whisper.android example structure</span>
 
 <span class="kw">class</span> <span class="ty">WhisperLib</span> {
@@ -5570,7 +5577,7 @@ $entries
     }
 }</code></pre>
           <h3>whisper.cpp Model Download &amp; Build</h3>
-          <pre><code lang="bash"><span class="lang-label">Bash</span><span class="cm"># Clone whisper.cpp</span>
+          <pre tabindex="0" translate="no"><code data-lang="bash"><span class="lang-label">Bash</span><span class="cm"># Clone whisper.cpp</span>
 git clone https://github.com/ggml-org/whisper.cpp
 cd whisper.cpp
 
@@ -5586,7 +5593,7 @@ cp models/ggml-small.en.bin examples/whisper.android/app/src/main/assets/models/
 # Build variant: release (required for proper CMake build)
 # Min SDK: 24 (API 24 = Android 7.0)</span></code></pre>
           <h3>Path B: Moonshine via ONNX Runtime (Low-Latency English)</h3>
-          <pre><code lang="gradle"><span class="lang-label">Gradle (build.gradle.kts)</span>dependencies {
+          <pre tabindex="0" translate="no"><code data-lang="gradle"><span class="lang-label">Gradle (build.gradle.kts)</span>dependencies {
     <span class="cm">// ONNX Runtime Android — core inference engine</span>
     implementation(<span class="str">"com.microsoft.onnxruntime:onnxruntime-android:1.27.0"</span>)
     <span class="cm">// OkHttp for model download (if not bundling in APK)</span>
@@ -5600,7 +5607,7 @@ android {
     }
 }</code></pre>
           <h3>Complete Wired Pipeline</h3>
-          <pre class="long-code"><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
+          <pre tabindex="0" class="long-code" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
  * Complete STT pipeline wired with Kotlin Flow.
  * Capture → VAD → Buffer → Whisper/Moonshine → Post-process → UI
  */</span>
@@ -5700,7 +5707,7 @@ android {
             on-device Whisper) and Moonshine's iOS SDK provide batteries-included integration.
           </p>
           <h3>AVAudioEngine Capture (Swift)</h3>
-          <pre><code lang="swift"><span class="lang-label">Swift</span><span class="kw">import</span> AVFoundation
+          <pre tabindex="0" translate="no"><code data-lang="swift"><span class="lang-label">Swift</span><span class="kw">import</span> AVFoundation
 
 <span class="kw">class</span> <span class="ty">AudioCaptureEngine</span> {
     <span class="kw">private let</span> engine = <span class="ty">AVAudioEngine</span>()
@@ -5731,7 +5738,7 @@ android {
     }
 }</code></pre>
           <h3>WhisperKit Integration (Swift)</h3>
-          <pre><code lang="swift"><span class="lang-label">Swift</span><span class="cm">// Swift Package Manager: https://github.com/argmaxinc/WhisperKit</span>
+          <pre tabindex="0" translate="no"><code data-lang="swift"><span class="lang-label">Swift</span><span class="cm">// Swift Package Manager: https://github.com/argmaxinc/WhisperKit</span>
 <span class="kw">import</span> WhisperKit
 
 <span class="kw">class</span> <span class="ty">WhisperSTT</span> {
@@ -5759,10 +5766,10 @@ android {
             on HuggingFace and bundle them in your Xcode target. ONNX Runtime iOS is distributed as
             a CocoaPod.
           </p>
-          <pre><code lang="ruby"><span class="lang-label">Swift (Podfile)</span>platform :ios, '14.0'
+          <pre tabindex="0" translate="no"><code data-lang="ruby"><span class="lang-label">Swift (Podfile)</span>platform :ios, '14.0'
 pod 'onnxruntime-mobile-objc', '~> 1.27.0'</code></pre>
 
-          <pre class="long-code"><code lang="swift"><span class="lang-label">Swift</span><span class="cm">// MoonshineONNX.swift — minimal greedy-decode wrapper</span>
+          <pre tabindex="0" class="long-code" translate="no"><code data-lang="swift"><span class="lang-label">Swift</span><span class="cm">// MoonshineONNX.swift — minimal greedy-decode wrapper</span>
 <span class="kw">import</span> Foundation
 <span class="kw">import</span> onnxruntime_objc
 
@@ -5858,7 +5865,7 @@ pod 'onnxruntime-mobile-objc', '~> 1.27.0'</code></pre>
 }</code></pre>
 
           <h3>Real-Time iOS Pipeline: AVAudioEngine + VAD + Moonshine</h3>
-          <pre><code lang="swift"><span class="lang-label">Swift</span><span class="cm">// Continuous listening: engine → VAD → Moonshine, all on a background queue</span>
+          <pre tabindex="0" translate="no"><code data-lang="swift"><span class="lang-label">Swift</span><span class="cm">// Continuous listening: engine → VAD → Moonshine, all on a background queue</span>
 <span class="kw">func</span> <span class="fn">startListening</span>() <span class="kw">throws</span> {
     <span class="kw">let</span> session = AVAudioSession.sharedInstance()
     <span class="kw">try</span> session.<span class="fn">setCategory</span>(.record, mode: .measurement,
@@ -5930,7 +5937,7 @@ pod 'onnxruntime-mobile-objc', '~> 1.27.0'</code></pre>
             AssemblyAI (best async quality), and self-hosted faster-whisper (best cost at scale).
           </p>
           <h3>faster-whisper Server (Python)</h3>
-          <pre><code lang="python"><span class="lang-label">Python</span><span class="cm"># pip install faster-whisper uvicorn fastapi python-multipart</span>
+          <pre tabindex="0" translate="no"><code data-lang="python"><span class="lang-label">Python</span><span class="cm"># pip install faster-whisper uvicorn fastapi python-multipart</span>
 <span class="kw">from</span> faster_whisper <span class="kw">import</span> WhisperModel
 <span class="kw">from</span> fastapi <span class="kw">import</span> FastAPI, UploadFile
 <span class="kw">import</span> io, tempfile, soundfile <span class="kw">as</span> sf
@@ -5955,7 +5962,7 @@ app = <span class="ty">FastAPI</span>()
         text = <span class="str">" "</span>.<span class="fn">join</span>(s.text <span class="kw">for</span> s <span class="kw">in</span> segments)
     <span class="kw">return</span> {<span class="str">"text"</span>: text, <span class="str">"language"</span>: info.language, <span class="str">"duration"</span>: info.duration}</code></pre>
           <h3>Cloud API Comparison (2026)</h3>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -6012,9 +6019,9 @@ app = <span class="ty">FastAPI</span>()
             first-word latency. The server can use any STT backend (faster-whisper, Deepgram, Azure
             Speech) and push back incremental transcript JSON.
           </p>
-          <pre><code lang="gradle"><span class="lang-label">Kotlin (build.gradle)</span>implementation(<span class="str">"com.squareup.okhttp3:okhttp:4.12.0"</span>)</code></pre>
+          <pre tabindex="0" translate="no"><code data-lang="gradle"><span class="lang-label">Kotlin (build.gradle)</span>implementation(<span class="str">"com.squareup.okhttp3:okhttp:4.12.0"</span>)</code></pre>
 
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="kw">class</span> <span class="ty">StreamingSTTClient</span>(
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="kw">class</span> <span class="ty">StreamingSTTClient</span>(
     <span class="kw">private val</span> serverUrl: <span class="ty">String</span>,
     <span class="kw">private val</span> onTranscript: (<span class="ty">String</span>, <span class="ty">Boolean</span>) -&gt; <span class="ty">Unit</span>,
 ) {
@@ -6053,7 +6060,7 @@ app = <span class="ty">FastAPI</span>()
             Deepgram's Nova-3 model achieves &lt;300&thinsp;ms latency with interim results. The
             <code>endpointing</code> parameter lets the cloud VAD handle silence detection.
           </p>
-          <pre><code lang="python"><span class="lang-label">Python</span><span class="cm"># pip install websockets pyaudio</span>
+          <pre tabindex="0" translate="no"><code data-lang="python"><span class="lang-label">Python</span><span class="cm"># pip install websockets pyaudio</span>
 <span class="kw">import</span> asyncio, websockets, json, pyaudio
 
 DEEPGRAM_URL = (
@@ -6092,7 +6099,7 @@ asyncio.<span class="fn">run</span>(<span class="fn">stream_to_deepgram</span>(<
             Run Moonshine on-device for short utterances (low cost, private). Automatically escalate
             to cloud for utterances longer than 15 s or when the device thermal state is throttled.
           </p>
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="kw">class</span> <span class="ty">HybridSTTEngine</span>(
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="kw">class</span> <span class="ty">HybridSTTEngine</span>(
     <span class="kw">private val</span> onDevice: <span class="ty">MoonshineAndroid</span>,
     <span class="kw">private val</span> cloud: <span class="ty">StreamingSTTClient</span>,
 ) {
@@ -6150,7 +6157,7 @@ asyncio.<span class="fn">run</span>(<span class="fn">stream_to_deepgram</span>(<
             INT8 quantization, and proper thread pinning. This section covers every knob.
           </p>
           <h3>INT8 Quantization (ONNX)</h3>
-          <pre><code lang="python"><span class="lang-label">Python</span><span class="cm"># Quantize ONNX model to INT8 — reduces size ~4×, speeds inference ~2×</span>
+          <pre tabindex="0" translate="no"><code data-lang="python"><span class="lang-label">Python</span><span class="cm"># Quantize ONNX model to INT8 — reduces size ~4×, speeds inference ~2×</span>
 <span class="kw">from</span> onnxruntime.quantization <span class="kw">import</span> quantize_dynamic, QuantType
 
 <span class="fn">quantize_dynamic</span>(
@@ -6163,7 +6170,7 @@ asyncio.<span class="fn">run</span>(<span class="fn">stream_to_deepgram</span>(<
 <span class="cm"># Result: encode.onnx 30.1 MB → encode_int8.onnx ~8 MB (tiny)
 # WER regression: typically 0.1–0.5% on LibriSpeech clean</span></code></pre>
           <h3>ONNX Runtime Session Options for Android</h3>
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="kw">import</span> ai.onnxruntime.*
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="kw">import</span> ai.onnxruntime.*
 <span class="kw">import</span> java.util.EnumSet
 
 <span class="kw">fun</span> <span class="fn">createOptimizedSession</span>(env: <span class="ty">OrtEnvironment</span>, modelBytes: <span class="ty">ByteArray</span>): <span class="ty">OrtSession</span> {
@@ -6184,7 +6191,7 @@ asyncio.<span class="fn">run</span>(<span class="fn">stream_to_deepgram</span>(<
     <span class="kw">return</span> env.<span class="fn">createSession</span>(modelBytes, opts)
 }</code></pre>
           <h3>Thermal Throttle Detection</h3>
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// API 29+ — Listen for thermal state changes</span>
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// API 29+ — Listen for thermal state changes</span>
 <span class="kw">val</span> powerManager = getSystemService(<span class="ty">PowerManager</span>::<span class="kw">class</span>.java)
 
 powerManager.<span class="fn">addThermalStatusListener</span>(mainExecutor) { status -&gt;
@@ -6239,7 +6246,7 @@ powerManager.<span class="fn">addThermalStatusListener</span>(mainExecutor) { st
             a single portable library.
           </p>
           <h3>GGML Model Quantization Levels</h3>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -6296,7 +6303,7 @@ powerManager.<span class="fn">addThermalStatusListener</span>(mainExecutor) { st
               </tbody>
             </table>
           </div>
-          <pre><code lang="bash"><span class="lang-label">Bash</span><span class="cm"># Convert HuggingFace Whisper to GGML + quantize</span>
+          <pre tabindex="0" translate="no"><code data-lang="bash"><span class="lang-label">Bash</span><span class="cm"># Convert HuggingFace Whisper to GGML + quantize</span>
 <span class="cm"># Step 1: Convert HuggingFace Whisper to GGML format</span>
 <span class="cm"># Usage: convert-h5-to-ggml.py dir_model path-to-whisper-repo dir-output [use-f32]</span>
 python3 models/convert-h5-to-ggml.py openai/whisper-small ./whisper ./models
@@ -6309,7 +6316,7 @@ python3 models/convert-h5-to-ggml.py openai/whisper-small ./whisper ./models
 ./build/bin/whisper-cli -m models/ggml-model-q8_0.bin -f samples/jfk.wav
 <span class="cm"># Expected output: "And so my fellow Americans ask not what your country can do for you..."</span></code></pre>
           <h3>Android CMakeLists Integration</h3>
-          <pre><code lang="cmake"><span class="lang-label">CMake (CMakeLists.txt)</span><span class="cm"># Add whisper.cpp as a CMake subdirectory in your Android project</span>
+          <pre tabindex="0" translate="no"><code data-lang="cmake"><span class="lang-label">CMake (CMakeLists.txt)</span><span class="cm"># Add whisper.cpp as a CMake subdirectory in your Android project</span>
 cmake_minimum_required(VERSION 3.22.1)
 project(MyVoiceApp)
 
@@ -6338,7 +6345,7 @@ target_link_libraries(whisper-jni
             most significant per-core throughput boost. Set <code>n_threads</code> based on physical
             core count, not logical — always test on the actual target device.
           </p>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -6371,7 +6378,7 @@ target_link_libraries(whisper-jni
               </tbody>
             </table>
           </div>
-          <pre><code lang="c"><span class="lang-label">C</span><span class="cm">// Optimal JNI-side parameter initialisation for Android</span>
+          <pre tabindex="0" translate="no"><code data-lang="c"><span class="lang-label">C</span><span class="cm">// Optimal JNI-side parameter initialisation for Android</span>
 <span class="kw">struct</span> <span class="ty">whisper_full_params</span> params =
     <span class="fn">whisper_full_default_params</span>(WHISPER_SAMPLING_GREEDY);
 
@@ -6403,7 +6410,7 @@ params.greedy.best_of   = <span class="num">1</span>;
             last 200 ms of each window as context for the next call. This avoids splitting words at
             chunk boundaries without running a full encoder pass on the full utterance.
           </p>
-          <pre><code lang="c"><span class="lang-label">C</span><span class="cm">// windowed streaming — keep 200 ms of audio at start of each new chunk</span>
+          <pre tabindex="0" translate="no"><code data-lang="c"><span class="lang-label">C</span><span class="cm">// windowed streaming — keep 200 ms of audio at start of each new chunk</span>
 <span class="kw">#define</span> SAMPLE_RATE    <span class="num">16000</span>
 <span class="kw">#define</span> KEEP_MS        <span class="num">200</span>
 <span class="kw">#define</span> STRIDE_MS      <span class="num">1500</span>        <span class="cm">// process 1.5 s per call</span>
@@ -6468,7 +6475,7 @@ params.greedy.best_of   = <span class="num">1</span>;
             from that constraint.
           </p>
           <h3>Moonshine Architecture Comparison: v1 vs v2</h3>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -6512,7 +6519,7 @@ params.greedy.best_of   = <span class="num">1</span>;
             </table>
           </div>
           <h3>Moonshine Python SDK — Streaming Transcription</h3>
-          <pre><code lang="python"><span class="lang-label">Python</span><span class="cm"># pip install moonshine-voice
+          <pre tabindex="0" translate="no"><code data-lang="python"><span class="lang-label">Python</span><span class="cm"># pip install moonshine-voice
 # Download models: python -m moonshine_voice.download --language en
 # Quick start:    python -m moonshine_voice.mic_transcriber --language en</span>
 
@@ -6572,7 +6579,7 @@ mic_transcriber.<span class="fn">start</span>()
             (8-bit quantized): ~26&thinsp;MB for <code>tiny</code>, ~59&thinsp;MB for <code>base</code>.
             Unquantized float32 models are ~133&thinsp;MB (tiny) and ~235&thinsp;MB (base).
           </p>
-          <pre><code lang="python"><span class="lang-label">Python</span><span class="cm"># pip install useful-moonshine-onnx huggingface-hub</span>
+          <pre tabindex="0" translate="no"><code data-lang="python"><span class="lang-label">Python</span><span class="cm"># pip install useful-moonshine-onnx huggingface-hub</span>
 <span class="kw">import</span> moonshine_onnx <span class="kw">as</span> moonshine
 
 <span class="cm"># Models are pre-exported to ONNX — downloaded automatically from HuggingFace</span>
@@ -6592,9 +6599,9 @@ model = <span class="ty">MoonshineOnnxModel</span>(model_name=<span class="str">
 text = moonshine.<span class="fn">transcribe</span>(<span class="str">"audio.wav"</span>, model)[<span class="num">0</span>]</code></pre>
 
           <h3>Android ONNX Runtime Integration (Kotlin)</h3>
-          <pre><code lang="gradle"><span class="lang-label">Kotlin (build.gradle)</span>implementation(<span class="str">"com.microsoft.onnxruntime:onnxruntime-android:1.27.0"</span>)</code></pre>
+          <pre tabindex="0" translate="no"><code data-lang="gradle"><span class="lang-label">Kotlin (build.gradle)</span>implementation(<span class="str">"com.microsoft.onnxruntime:onnxruntime-android:1.27.0"</span>)</code></pre>
 
-          <pre class="long-code"><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="kw">class</span> <span class="ty">MoonshineAndroid</span>(<span class="kw">private val</span> assets: <span class="ty">AssetManager</span>) {
+          <pre tabindex="0" class="long-code" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="kw">class</span> <span class="ty">MoonshineAndroid</span>(<span class="kw">private val</span> assets: <span class="ty">AssetManager</span>) {
 
     <span class="kw">private val</span> env = <span class="ty">OrtEnvironment</span>.<span class="fn">getEnvironment</span>()
     <span class="kw">private val</span> opts = <span class="ty">OrtSession</span>.<span class="ty">SessionOptions</span>().<span class="fn">apply</span> {
@@ -6656,7 +6663,7 @@ text = moonshine.<span class="fn">transcribe</span>(<span class="str">"audio.wav
 }</code></pre>
 
           <h3>Choosing Moonshine tiny vs base</h3>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -6729,7 +6736,7 @@ text = moonshine.<span class="fn">transcribe</span>(<span class="str">"audio.wav
             backends without custom JNI code, Sherpa-ONNX is the best option.
           </p>
           <h3>Sherpa-ONNX Android Setup</h3>
-          <pre><code lang="gradle"><span class="lang-label">Gradle (build.gradle.kts)</span>repositories {
+          <pre tabindex="0" translate="no"><code data-lang="gradle"><span class="lang-label">Gradle (build.gradle.kts)</span>repositories {
     maven { url = uri(<span class="str">"https://jitpack.io"</span>) }
     mavenCentral()
 }
@@ -6738,7 +6745,7 @@ dependencies {
     <span class="cm">// Sherpa-ONNX AAR — bundles ONNX Runtime + all ASR pipelines</span>
     implementation(<span class="str">"com.github.k2-fsa:sherpa-onnx:v1.13.4"</span>)
 }</code></pre>
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="kw">import</span> com.k2fsa.sherpa.onnx.*
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="kw">import</span> com.k2fsa.sherpa.onnx.*
 
 <span class="cm">// Moonshine via Sherpa-ONNX (OfflineRecognizer — batch mode with v2 streaming models)</span>
 <span class="kw">class</span> <span class="ty">SherpaSTT</span>(context: <span class="ty">Context</span>) {
@@ -6785,7 +6792,7 @@ dependencies {
             pipeline API. The table below lists what ships out-of-the-box, with model sizes and
             Android-tested latency measured on a Pixel 7 (Tensor G2, 8 GB RAM).
           </p>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -6869,7 +6876,7 @@ dependencies {
             single LSTM state tensor <code>[2,1,128]</code>). You can combine it with any offline model for automatic segmentation without
             external VAD libraries:
           </p>
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="kw">val</span> vadConfig = <span class="ty">VadModelConfig</span>(
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="kw">val</span> vadConfig = <span class="ty">VadModelConfig</span>(
     sileroVad = <span class="ty">SileroVadModelConfig</span>(
         model = <span class="fn">copyAsset</span>(context, <span class="str">"silero_vad.onnx"</span>),
         threshold = <span class="num">0.5f</span>,
@@ -6936,7 +6943,7 @@ vad.<span class="fn">acceptWaveform</span>(audioSamples)
           </p>
 
           <h3>Platform Support Matrix</h3>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -7022,7 +7029,7 @@ vad.<span class="fn">acceptWaveform</span>(audioSamples)
             (used in <a href="#s09">§09</a>) are higher — e.g., Whisper Large v3: 7.44%, Moonshine Base: 9.99%,
             Moonshine Tiny: 12.65%.
           </p>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -7144,7 +7151,7 @@ vad.<span class="fn">acceptWaveform</span>(audioSamples)
             optimal trade-off: half the size of FP16 with less than 0.2% absolute WER increase on
             LibriSpeech clean. Q4_0 is acceptable for low-memory devices; avoid Q2_K for dictation.
           </p>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -7208,7 +7215,7 @@ vad.<span class="fn">acceptWaveform</span>(audioSamples)
             <code>dumpsys batterystats</code> after. Values below are approximate for a 10 s
             utterance on a Pixel 8 at 20°C ambient.
           </p>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -7292,7 +7299,7 @@ vad.<span class="fn">acceptWaveform</span>(audioSamples)
             callbacks. This section covers the complete wiring pattern.
           </p>
           <h3>IME Voice Button Architecture</h3>
-          <pre class="long-code"><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="kw">class</span> <span class="ty">VoiceKeyboardIME</span> : <span class="ty">InputMethodService</span>() {
+          <pre tabindex="0" class="long-code" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="kw">class</span> <span class="ty">VoiceKeyboardIME</span> : <span class="ty">InputMethodService</span>() {
 
     <span class="kw">private val</span> imeScope = <span class="ty">CoroutineScope</span>(<span class="ty">SupervisorJob</span>() + <span class="ty">Dispatchers</span>.Main)
     <span class="kw">private lateinit var</span> sttPipeline: <span class="ty">STTPipeline</span>
@@ -7454,7 +7461,7 @@ vad.<span class="fn">acceptWaveform</span>(audioSamples)
             </li>
           </ol>
           <h3>Memory Budget</h3>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -7505,7 +7512,7 @@ vad.<span class="fn">acceptWaveform</span>(audioSamples)
             single unified timeline. The trace reveals whether latency is in audio capture, feature
             extraction, encoder, or decoder.
           </p>
-          <pre><code lang="bash"><span class="lang-label">Bash</span><span class="cm"># 1 — Download Perfetto recording script</span>
+          <pre tabindex="0" translate="no"><code data-lang="bash"><span class="lang-label">Bash</span><span class="cm"># 1 — Download Perfetto recording script</span>
 curl -O https://raw.githubusercontent.com/google/perfetto/master/tools/record_android_trace
 chmod +x record_android_trace
 
@@ -7517,7 +7524,7 @@ python3 record_android_trace     -o trace.perfetto-trace     -t 15s     -b 64mb 
 <span class="cm">#            thread "inference"    → encoder + decoder timing</span>
 <span class="cm">#            "Choreographer#doFrame" → UI jank from heavy inference</span></code></pre>
 
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// Add Perfetto atrace slices to your own code for custom timing</span>
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// Add Perfetto atrace slices to your own code for custom timing</span>
 <span class="kw">import</span> android.os.Trace
 
 <span class="kw">fun</span> <span class="fn">runInference</span>(pcm: <span class="ty">FloatArray</span>): <span class="ty">String</span> {
@@ -7539,7 +7546,7 @@ python3 record_android_trace     -o trace.perfetto-trace     -t 15s     -b 64mb 
             indefinitely. On Android 12+, register for thermal status callbacks and downgrade model
             quality when the device is throttled.
           </p>
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="kw">class</span> <span class="ty">TranscriptionWakeLockGuard</span>(<span class="kw">private val</span> context: <span class="ty">Context</span>) : <span class="ty">AutoCloseable</span> {
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="kw">class</span> <span class="ty">TranscriptionWakeLockGuard</span>(<span class="kw">private val</span> context: <span class="ty">Context</span>) : <span class="ty">AutoCloseable</span> {
     <span class="kw">private val</span> pm = context.<span class="fn">getSystemService</span>(<span class="ty">Context</span>.POWER_SERVICE) <span class="kw">as</span> <span class="ty">PowerManager</span>
     <span class="kw">private val</span> lock = pm.<span class="fn">newWakeLock</span>(
         <span class="ty">PowerManager</span>.PARTIAL_WAKE_LOCK,
@@ -7573,7 +7580,7 @@ python3 record_android_trace     -o trace.perfetto-trace     -t 15s     -b 64mb 
             them for background work. This eliminates the sporadic 50–200&thinsp;ms stalls visible
             in Perfetto traces.
           </p>
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// In your audio capture coroutine dispatcher or HandlerThread:</span>
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// In your audio capture coroutine dispatcher or HandlerThread:</span>
 <span class="kw">val</span> audioThread = <span class="ty">HandlerThread</span>(<span class="str">"AudioCapture"</span>).<span class="fn">apply</span> {
     priority = <span class="ty">Process</span>.THREAD_PRIORITY_AUDIO   <span class="cm">// -16 (highest for audio)</span>
     <span class="fn">start</span>()
@@ -7650,7 +7657,7 @@ python3 record_android_trace     -o trace.perfetto-trace     -t 15s     -b 64mb 
             </li>
           </ul>
           <h3>Android Privacy Indicators (API 31+)</h3>
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// API 31+: Check if the microphone indicator is being shown by the system</span>
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// API 31+: Check if the microphone indicator is being shown by the system</span>
 <span class="kw">val</span> privacyManager = getSystemService(<span class="ty">SensorPrivacyManager</span>::<span class="kw">class</span>.java)
 
 <span class="kw">if</span> (privacyManager != <span class="kw">null</span> &amp;&amp;
@@ -7694,7 +7701,7 @@ python3 record_android_trace     -o trace.perfetto-trace     -t 15s     -b 64mb 
           </div>
 
           <h3>On-Device vs Cloud vs Hybrid: Privacy Trade-Offs</h3>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -7775,7 +7782,7 @@ python3 record_android_trace     -o trace.perfetto-trace     -t 15s     -b 64mb 
 
           <h3>Audit Logging &amp; Transparency</h3>
           <p>Build trust by making microphone usage verifiable:</p>
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// Record mic access events for user transparency / privacy dashboard</span>
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// Record mic access events for user transparency / privacy dashboard</span>
 <span class="kw">data class</span> <span class="ty">MicAccessEvent</span>(
     <span class="kw">val</span> timestamp: <span class="ty">Long</span> = System.<span class="fn">currentTimeMillis</span>(),
     <span class="kw">val</span> durationMs: <span class="ty">Long</span>,
@@ -7816,7 +7823,7 @@ python3 record_android_trace     -o trace.perfetto-trace     -t 15s     -b 64mb 
             issues in minutes rather than hours.
           </p>
           <h3>Diagnostic Matrix</h3>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -7891,7 +7898,7 @@ python3 record_android_trace     -o trace.perfetto-trace     -t 15s     -b 64mb 
             </table>
           </div>
           <h3>Whisper-Specific: Hallucination Patterns</h3>
-          <pre><code lang="python"><span class="lang-label">Python</span><span class="cm"># Detect and filter Whisper hallucinations programmatically</span>
+          <pre tabindex="0" translate="no"><code data-lang="python"><span class="lang-label">Python</span><span class="cm"># Detect and filter Whisper hallucinations programmatically</span>
 
 HALLUCINATION_PATTERNS = [
     <span class="str">"Thank you for watching"</span>,
@@ -8057,7 +8064,7 @@ HALLUCINATION_PATTERNS = [
             evaluating dependencies or checking license compatibility for your project.
           </p>
           <h3>Models &amp; Inference Engines</h3>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -8152,7 +8159,7 @@ HALLUCINATION_PATTERNS = [
             </table>
           </div>
           <h3>VAD &amp; Audio Processing</h3>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -8365,7 +8372,7 @@ HALLUCINATION_PATTERNS = [
           </div>
 
           <h3>whisper.cpp: GGML Runtime Errors</h3>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -8525,7 +8532,7 @@ HALLUCINATION_PATTERNS = [
             </table>
           </div>
 
-          <pre><code lang="c"><span class="lang-label">C</span><span class="cm">/* Defensive whisper.cpp initialization with GPU fallback */</span>
+          <pre tabindex="0" translate="no"><code data-lang="c"><span class="lang-label">C</span><span class="cm">/* Defensive whisper.cpp initialization with GPU fallback */</span>
 whisper_context_params cparams = whisper_context_default_params();
 cparams.use_gpu    = <span class="kw">true</span>;
 cparams.flash_attn = <span class="kw">true</span>;
@@ -8558,7 +8565,7 @@ assert(ctx != <span class="kw">nullptr</span> &amp;&amp; <span class="str">"Mode
           </div>
 
           <h3>Android AudioRecord: Initialization &amp; Runtime Failures</h3>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -8649,7 +8656,7 @@ assert(ctx != <span class="kw">nullptr</span> &amp;&amp; <span class="str">"Mode
             </table>
           </div>
 
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// Safe AudioRecord factory with full error checking</span>
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// Safe AudioRecord factory with full error checking</span>
 <span class="kw">fun</span> <span class="fn">createAudioRecord</span>(): AudioRecord {
     <span class="kw">val</span> minBuf = AudioRecord.getMinBufferSize(
         <span class="num">16_000</span>, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT
@@ -8680,7 +8687,7 @@ assert(ctx != <span class="kw">nullptr</span> &amp;&amp; <span class="str">"Mode
 }</code></pre>
 
           <h3>ONNX Runtime on Android: NNAPI &amp; ABI Issues</h3>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -8783,7 +8790,7 @@ assert(ctx != <span class="kw">nullptr</span> &amp;&amp; <span class="str">"Mode
           </div>
 
           <h3>iOS: AVAudioEngine &amp; WhisperKit Issues</h3>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -8860,7 +8867,7 @@ assert(ctx != <span class="kw">nullptr</span> &amp;&amp; <span class="str">"Mode
             </table>
           </div>
 
-          <pre><code lang="swift"><span class="lang-label">Swift</span><span class="cm">// Handle AVAudioSession interruptions correctly</span>
+          <pre tabindex="0" translate="no"><code data-lang="swift"><span class="lang-label">Swift</span><span class="cm">// Handle AVAudioSession interruptions correctly</span>
 <span class="kw">func</span> <span class="fn">setupInterruptionHandling</span>() {
     NotificationCenter.<span class="kw">default</span>.addObserver(
         <span class="kw">self</span>,
@@ -8886,7 +8893,7 @@ assert(ctx != <span class="kw">nullptr</span> &amp;&amp; <span class="str">"Mode
 }</code></pre>
 
           <h3>Silero VAD: Edge Cases &amp; False Triggers</h3>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -8955,7 +8962,7 @@ assert(ctx != <span class="kw">nullptr</span> &amp;&amp; <span class="str">"Mode
           </div>
 
           <h3>Moonshine: Audio &amp; Runtime Issues</h3>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -9034,7 +9041,7 @@ assert(ctx != <span class="kw">nullptr</span> &amp;&amp; <span class="str">"Mode
           </div>
 
           <h3>pyannote.audio: Speaker Diarization Failures</h3>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -9132,7 +9139,7 @@ assert(ctx != <span class="kw">nullptr</span> &amp;&amp; <span class="str">"Mode
           </div>
 
           <h3>Cloud API: WebSocket &amp; Streaming Issues</h3>
-          <pre><code lang="python"><span class="lang-label">Python</span><span class="cm"># Robust Deepgram/AssemblyAI WebSocket client with reconnect</span>
+          <pre tabindex="0" translate="no"><code data-lang="python"><span class="lang-label">Python</span><span class="cm"># Robust Deepgram/AssemblyAI WebSocket client with reconnect</span>
 <span class="kw">import</span> asyncio, websockets, json
 
 MAX_RETRIES = <span class="num">5</span>
@@ -9167,7 +9174,7 @@ BACKOFF_BASE = <span class="num">1.5</span>
                 <span class="kw">raise</span>
     <span class="kw">raise</span> RuntimeError(<span class="str">f"WebSocket failed after {MAX_RETRIES} retries"</span>)</code></pre>
 
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -9207,7 +9214,7 @@ BACKOFF_BASE = <span class="num">1.5</span>
           </div>
 
           <h3>Debugging Toolkit: Commands, Tools &amp; Log Patterns</h3>
-          <pre><code lang="bash"><span class="lang-label">Bash</span><span class="cm"># ── Android logcat filters for STT debugging ──────────────────────────</span>
+          <pre tabindex="0" translate="no"><code data-lang="bash"><span class="lang-label">Bash</span><span class="cm"># ── Android logcat filters for STT debugging ──────────────────────────</span>
 
 <span class="cm"># Whisper.cpp GGML errors</span>
 adb logcat -s whisper.cpp:* GGML:E *:F
@@ -9255,7 +9262,7 @@ xcrun xctrace record --template "Allocations" \
           </div>
 
           <h3>Production Error Handling Patterns</h3>
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// Sealed result type for STT pipeline errors — no silent failures</span>
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// Sealed result type for STT pipeline errors — no silent failures</span>
 <span class="kw">sealed interface</span> <span class="fn">TranscriptionResult</span> {
     <span class="kw">data class</span> <span class="fn">Success</span>(<span class="kw">val</span> text: String, <span class="kw">val</span> confidence: Float) : TranscriptionResult
     <span class="kw">data class</span> <span class="fn">Error</span>(<span class="kw">val</span> code: ErrorCode, <span class="kw">val</span> message: String) : TranscriptionResult
@@ -9333,7 +9340,7 @@ xcrun xctrace record --template "Allocations" \
             marker phrases) and <strong>implicit</strong> (natural restatement without any trigger).
             A production-grade dictation system must handle both.
           </p>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -9385,7 +9392,7 @@ xcrun xctrace record --template "Allocations" \
             Across Wispr Flow, aawaaz, and tambourine-voice, the following trigger words are
             consistently recognised. Sorted by frequency-of-use from real dictation data:
           </p>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -9447,7 +9454,7 @@ xcrun xctrace record --template "Allocations" \
             handles implicit restatement (50–400ms). This avoids LLM latency for the common case
             while still catching the hard cases.
           </p>
-          <pre class="long-code"><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
+          <pre tabindex="0" class="long-code" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
  * Two-layer backtrack engine.
  *
  * Layer 1: Rule-based trigger detection (fast, deterministic)
@@ -9498,7 +9505,7 @@ xcrun xctrace record --template "Allocations" \
             natural pause points. The regex approach used by aawaaz and adapted in Section 14's
             <code>BacktrackDetector</code>:
           </p>
-          <pre><code lang="regex"><span class="lang-label">Regex</span><span class="cm">// Clause boundary pattern — splits text at natural correction points</span>
+          <pre tabindex="0" translate="no"><code data-lang="regex"><span class="lang-label">Regex</span><span class="cm">// Clause boundary pattern — splits text at natural correction points</span>
 <span class="str">(?:^|[.!?]\\s+|,\\s+|\\s+(?:and|but|or|so|then|because)\\s+)</span>
 
 <span class="cm">// Example: "send the email to John, actually to Sarah"
@@ -9582,7 +9589,7 @@ xcrun xctrace record --template "Allocations" \
           </p>
 
           <h3>Dictionary Entry Types</h3>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -9622,7 +9629,7 @@ xcrun xctrace record --template "Allocations" \
           </div>
 
           <h3>Dictionary Architecture</h3>
-          <pre class="long-code"><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
+          <pre tabindex="0" class="long-code" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
  * Personal dictionary with priority-based replacement.
  * Entries are sorted by priority (manual > contacts > CSV > auto-learned)
  * and by length (longer patterns match first to prevent partial matches).
@@ -9678,7 +9685,7 @@ xcrun xctrace record --template "Allocations" \
             becomes a dictionary entry. This creates a feedback loop where the system improves with
             use.
           </p>
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
  * Tracks user corrections to auto-learn dictionary entries.
  * Called by the IME when the user edits committed text.
  *
@@ -9719,7 +9726,7 @@ xcrun xctrace record --template "Allocations" \
             dictation: people's names. On Android, this requires <code>READ_CONTACTS</code>
             permission and a one-time sync.
           </p>
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
  * Import device contacts as personal dictionary entries.
  * Each contact's display name becomes a (spoken → written) mapping.
  *
@@ -9760,7 +9767,7 @@ xcrun xctrace record --template "Allocations" \
             correct single words), shortcuts can map a phrase to a paragraph or template. Fuzzy
             matching with Levenshtein distance handles ASR variations.
           </p>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -9827,7 +9834,7 @@ xcrun xctrace record --template "Allocations" \
           </p>
 
           <h3>Command Mode vs Dictation Mode</h3>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -9871,7 +9878,7 @@ xcrun xctrace record --template "Allocations" \
             Wispr Flow supports free-form commands (any instruction the user speaks) plus recognised
             shortcuts for common operations:
           </p>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
             <table>
               <thead>
                 <tr>
@@ -9931,7 +9938,7 @@ xcrun xctrace record --template "Allocations" \
           </div>
 
           <h3>Architecture</h3>
-          <pre class="long-code"><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
+          <pre tabindex="0" class="long-code" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">/**
  * Voice Command Mode engine for the IME.
  *
  * Flow:
@@ -10010,7 +10017,7 @@ Return ONLY the generated text."""</span>
 
           <h3>IME Integration</h3>
           <p>On Android, the IME accesses selected text via <code>InputConnection</code>:</p>
-          <pre><code lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// Inside InputMethodService</span>
+          <pre tabindex="0" translate="no"><code data-lang="kotlin"><span class="lang-label">Kotlin</span><span class="cm">// Inside InputMethodService</span>
 <span class="kw">fun</span> <span class="fn">handleCommandResult</span>(result: <span class="ty">CommandResult</span>) {
     <span class="kw">val</span> ic = currentInputConnection ?: <span class="kw">return</span>
     <span class="kw">when</span> (result) {
@@ -10074,10 +10081,10 @@ Return ONLY the generated text."""</span>
           </div>
 
           <h3>APA (7th Edition)</h3>
-          <pre><code>Made in Jurgistan. (2026). Mobile Speech-to-Text Engineering Guide (Version 2026.2.0) [Computer software]. https://Made-in-Jurgistan.github.io/mobile-stt-engineering-guide/</code></pre>
+          <pre tabindex="0" translate="no"><code>Made in Jurgistan. (2026). Mobile Speech-to-Text Engineering Guide (Version 2026.2.0) [Computer software]. https://Made-in-Jurgistan.github.io/mobile-stt-engineering-guide/</code></pre>
 
           <h3>BibTeX</h3>
-          <pre><code>@software{Made_in_Jurgistan_Mobile_Speech_2026,
+          <pre tabindex="0" translate="no"><code>@software{Made_in_Jurgistan_Mobile_Speech_2026,
   author = {Made in Jurgistan},
   month = {7},
   title = {{Mobile Speech-to-Text Engineering Guide}},
@@ -10125,7 +10132,7 @@ Return ONLY the generated text."""</span>
             <span style="display: block; margin-top: 8px; font-size: 11px; color: var(--ink-400);">
               Accessibility: Conforms to WCAG 2.2 AA. Includes keyboard navigation, skip links,
               focus-visible outlines, reduced-motion support, forced-colors support, and semantic HTML.
-              Report issues to: github.com/Made-in-Jurgistan/mobile-stt-engineering-guide-2026/issues
+              Report issues to: github.com/Made-in-Jurgistan/mobile-stt-engineering-guide/issues
             </span>
             <a href="#cover" class="return-to-top-link">↑ Return to top</a>
           </div>
@@ -10169,7 +10176,5 @@ Return ONLY the generated text."""</span>
       })();
     </script>
 
-<!-- Paged.js polyfill for CSS Paged Media L3 (string-set, bookmark-level, named pages, margin boxes) -->
-<script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
   </body>
 </html>
