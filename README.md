@@ -79,7 +79,7 @@
 ## <img src="https://api.iconify.design/lucide:sparkles.svg?color=%230047ab" width="20" height="20" alt="" /> Guide Features
 
 - **<img src="https://api.iconify.design/lucide:ruler.svg?color=%230047ab" width="16" height="16" alt="" /> Print-Ready** — A4 duplex margins, page-break controls, print-safe color resets
-- **<img src="https://api.iconify.design/lucide:file-down.svg?color=%230047ab" width="16" height="16" alt="" /> PDF Edition** — Bookmarked, tagged A4 PDF (156 pages) built from the same HTML, in [`pdf/`](pdf/)
+- **<img src="https://api.iconify.design/lucide:file-down.svg?color=%230047ab" width="16" height="16" alt="" /> PDF Edition** — Bookmarked, tagged A4 PDF (178 pages) built from the same HTML, in [`pdf/`](pdf/)
 - **<img src="https://api.iconify.design/lucide:copy.svg?color=%230047ab" width="16" height="16" alt="" /> One-Click Copy** — Copy button on every code block
 - **<img src="https://api.iconify.design/lucide:accessibility.svg?color=%230047ab" width="16" height="16" alt="" /> WCAG 2.2 AA** — Keyboard navigation, skip links, `:focus-visible` outlines, reduced-motion support, forced-colors support
 - **<img src="https://api.iconify.design/lucide:search.svg?color=%230047ab" width="16" height="16" alt="" /> SEO Optimized** — Open Graph, JSON-LD `TechArticle` structured data, canonical URL
@@ -109,7 +109,7 @@ python -m http.server 8000
 
 ### Download the PDF
 
-A ready-made print edition is in [`pdf/`](pdf/): [`Mobile_Speech-to-Text_Engineering_Guide.pdf`](pdf/Mobile_Speech-to-Text_Engineering_Guide.pdf) (156 pages, A4 portrait, bookmarked and tagged).
+A ready-made print edition is in [`pdf/`](pdf/): [`Mobile_Speech-to-Text_Engineering_Guide.pdf`](pdf/Mobile_Speech-to-Text_Engineering_Guide.pdf) (178 pages, A4 portrait, bookmarked and tagged).
 
 ### Print to PDF
 
@@ -134,7 +134,7 @@ Mic → 16kHz PCM → Pre-Processing → VAD → Chunking → Feature Extraction
 | Guide | Focus |
 |-------|-------|
 | **[Debugging Field Manual](https://Made-in-Jurgistan.github.io/debugging-field-manual/)** | Cross-platform debugging, AI-augmented workflows, 29 sections |
-| **[Android Keyboard Design Guide](https://Made-in-Jurgistan.github.io/android-keyboard-design-guide/)** | Production IME development, API 30–36, Material You 3.0 |
+| **[Android Keyboard Design Guide](https://Made-in-Jurgistan.github.io/android-keyboard-design-guide/)** | Production IME development, API 30–37, Material You 3.0 |
 | **[Android Keyboard Design Guide: 3D & Personalization](https://Made-in-Jurgistan.github.io/android-keyboard-design-guide-3d-personalization/)** | 3D rendering, PBR materials, custom themes, game engine bridges |
 | **[The SuperClaude Field Guide](https://Made-in-Jurgistan.github.io/superclaude-field-guide/)** | SuperClaude v4.3.0 for Claude Code: 30 commands, 19 specialists, MCP tools, 59 recipes |
 
@@ -147,7 +147,7 @@ Mic → 16kHz PCM → Pre-Processing → VAD → Chunking → Feature Extraction
 | **Author** | Made in Jurgistan |
 | **Version** | 2026.2.0 |
 | **Published** | 2026-07-23 |
-| **Updated** | 2026-07-23 |
+| **Updated** | 2026-10-07 |
 | **License** | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
 | **Accessibility** | WCAG 2.2 AA |
 | **Canonical URL** | `https://Made-in-Jurgistan.github.io/mobile-stt-engineering-guide/` |
